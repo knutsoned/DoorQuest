@@ -49,3 +49,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - realize that the Kenney platformer kits for 2D are side scroll oriented, and the isometric 3D seems to be actual 3D objects and not 2.5D isometric tiles (need to verify)
 - make note to find out how much overlap there is between Summer Festival and Marble Fall
 - make joking plans to design a QBertlike called Spring Party and a brawler called Endless Summer Battle
+
+### 5pm
+- mkdir src
+- j/k it was npm create vite

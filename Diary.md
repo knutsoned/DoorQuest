@@ -33,7 +33,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - player starts at default or location of most recent hitbox
 - a special door returns the player to the start room
 - start room door is then unlocked and moving through it generates a new level
-- game object is not to unlock start door by returning to it from inside the book
+- game object is to unlock start door by returning to it from inside the book
 
 ## Monday
 ### 11am

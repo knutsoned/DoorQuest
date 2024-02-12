@@ -16,7 +16,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - graphics style like 1980s Sierra adventure games
 - player character is an anthropomorphic crystal ball
 - interactions are automatic by rolling over to hitbox
-- QEAD-default plus hotkeys control scheme manages accel/devel and console access
+- QEASD-default plus hotkeys control scheme manages accel/devel and console access
 - physics is realistic in the sense that there is friction and controls apply force only
 - start screen is a room containing a book and a locked door
 - opening the book pulls up ~~cheat code~~developer console
@@ -38,11 +38,11 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - optional final pass customizes objects
 - PRNG + seed + algorithm defines a unique level
 - game objective is to unlock start door by returning to it from inside the book
-- identify https://github.com/SvenFrankson/marble-fall/tree/main as potential pilfering source
+- identify https://github.com/SvenFrankson/marble-fall as potential pilfering source
 
 ## Monday
 ### 11am
-- identify BabylonJS/SummerFestival as a good place to start
+- identify https://github.com/BabylonJS/SummerFestival as a good place to start
 - initialize git repo https://github.com/knutsoned/DoorQuest
 ### 2pm
 - go to the gym and think some more, adding notes above

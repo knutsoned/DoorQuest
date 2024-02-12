@@ -52,4 +52,4 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 
 ### 5pm
 - mkdir src
-- j/k it was npm create vite
+- j/k it was [npm create vite](https://doc.babylonjs.com/guidedLearning/usingVite)

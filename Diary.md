@@ -1,5 +1,4 @@
 # Game Log
-========
 ## Sunday
 
 ### 5am

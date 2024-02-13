@@ -57,3 +57,8 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 ### 5:30pm
 - display a ball
 - delete entire project and reload from GH to make sure that part works
+
+### 7pm
+- remember during dinner this was going to be an Elevator Action/Rolling Thunder style stealth side scroller
+- perhaps it's not too late
+- realize I actually have to figure out how to load assets from Kenney and Sketchfab into Rhino and also save them

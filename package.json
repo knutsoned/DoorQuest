@@ -13,7 +13,13 @@
   "devDependencies": {
     "@babylonjs/core": "^6.42.0",
     "@babylonjs/inspector": "^6.42.0",
+    "@playwright/test": "^1.41.2",
+    "ammojs-typed": "^1.0.6",
     "typescript": "^5.2.2",
     "vite": "^5.1.0"
-  }
+  },
+  "volta": {
+    "node": "20.11.1"
+  },
+  "dependencies": {}
 }

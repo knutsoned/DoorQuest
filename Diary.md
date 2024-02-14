@@ -108,5 +108,5 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 
 ### 5pm
 - start thinking about Valentine's Day dinner
-- quickly wrap up for the day by merging @RaananW's code into the vite template and fixing it with the author's own response to a [post](https://forum.babylonjs.com/t/using-ammojs-with-babylon/26413/8) a post unrelated to vite
+- quickly wrap up for the day by merging @RaananW's code into the vite template and fixing it with the author's own response to a [post](https://forum.babylonjs.com/t/using-ammojs-with-babylon/26413/8) unrelated to vite
 - now there is a ball that drops and bounces a few times before becoming stationary

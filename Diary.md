@@ -46,7 +46,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - initialize git repo https://github.com/knutsoned/DoorQuest
 ### 2pm
 - go to the gym and think some more, adding notes above
-- realize that the Kenney platformer kits for 2D are side scroll oriented, and the isometric 3D seems to be actual 3D objects and not 2.5D isometric tiles (need to verify)
+- realize that the Kenney platformer kits for 2D are side scroll oriented, and the isometric 3D seems to be actual 3D objects and not 2.5D isometric tiles (need to verify: some 3D kits come with isometric sprite sheets)
 - make note to find out how much overlap there is between Summer Festival and Marble Fall
 - make joking plans to design a QBertlike called Spring Party and a brawler called Endless Summer Battle
 
@@ -57,3 +57,52 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 ### 5:30pm
 - display a ball
 - delete entire project and reload from GH to make sure that part works
+
+
+## Tuesday
+### 7am
+- Paczki Day, cardiology follow up, dinner at Fogo de Chao
+- write MVP spec on the way to Chicago, tracking additional features separately
+
+### MVP specs
+- 3x3 "rooms"
+- decision points cause camera chase, no return
+- chase ends when next choice fully visible
+- basic controls: arrow keys, main button (space)
+- define tab as escaping through a sequence (escape and tab have same effect)
+- long press of main button is esc/tab, even in console
+- tab switches between full console (default), 3D view with console sidebar, 3D only
+- when console has focus, accept [A-Za-z0-9], space, backspace, enter
+- mouse dragging will rotate view (OrbitControls for camera)
+- basic dialogs take focus, non-choice can be dismissed with tab (back to previous view)
+- level shape system as interchangeable blocks with variations
+- story structure determines shape of paths (door === story choice)
+- level is made of 3x3 grid of rooms with internal 3x3 structure
+- write stories about Kenney assets?
+- form a recursive madlib (story structure has high level interchangeable components who themselves have fields that can be populated with randomly selected provided values)
+- read the Canterbury Tales Cliff Notes for inspiration
+
+### Additional features
+- env effects/ants caused by roving Game of Life overlay transformed into generators, paths, probability/frequency
+- mobile version (touch and tilt support)
+- inclusivity features (color palette, control remapping, gamepad support, text interface)
+- allow sidebar to show overhead map and 1st person view
+- toggle/swap 3rd person(default)/1st person view
+- add tags to choice, use tag frequency to affect next level (character dialog, story elements -> game env)
+- actor pathfinding (player in 3D view responds to basic text commands, chase avoid for NPCs)
+
+## Wednesday
+### 11am
+- momentary panic of realizing it is Wednesday
+
+### 1pm
+- finish some irl work and then start looking for the core components (basic physics stuff)
+- check out https://github.com/jeromeetienne/marbleSoccer as a possible starting point
+- now using this as overall template https://github.com/RaananW/babylonjs-webpack-es6
+- SummerFestival to be used for overall structure and flow, with marbleSoccer showing how to do some things I want to do but with THREE
+- have not looked at marble-fall code yet, would be great reference if a track is needed
+
+### 5pm
+- start thinking about Valentine's Day dinner
+- quickly wrap up for the day by merging @RanaanW's code into the vite template and fixing it with the author's own response to a [post](https://forum.babylonjs.com/t/using-ammojs-with-babylon/26413/8) a post unrelated to vite
+- now there is a ball that drops and bounces a few times before becoming stationary

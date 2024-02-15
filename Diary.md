@@ -154,3 +154,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 ## Thursday
 ### 9:45am
 - create a burndown list for the next couple hours: add texture to sphere, build UI shell, see if Sensor API actually works
+
+## 11:05am
+- got the texture to stop displaying upside down and read up on indices and positions for mesh building https://playground.babylonjs.com/#I092BE
+- start work on UI key mapping based on https://stephendoddtech.com/blog/game-design/keyboard-event-game-input-map

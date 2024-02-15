@@ -109,4 +109,43 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 ### 5pm
 - start thinking about Valentine's Day dinner
 - quickly wrap up for the day by merging @RaananW's code into the vite template and fixing it with the author's own response to a [post](https://forum.babylonjs.com/t/using-ammojs-with-babylon/26413/8) unrelated to vite
-- now there is a ball that drops and bounces a few times before becoming stationary
+- now there is a ball that drops and bounces and becomes stationary
+
+### 6:20pm
+- start working on a 16:9 layout and try to make it responsive
+- main viewport is square (9x9). landscape has sidebar with 3x4 1st person and 4x4 map
+- default main perspective is offset overhead, swappable with 1st person
+- remaining space is taken up by console
+- portrait mode makes 1st person 5x4. 1st person and map above main, console below
+- can disable 1st person (replace with a logo) and map (expand 1st person horizontally)
+- if both disables, console takes up entire space
+- think about a more square layout where main is upper left, map is upper right, 1st person fills below main, console fills below map
+- if [tilt](https://developer.mozilla.org/en-US/docs/Web/API/AbsoluteOrientationSensor) is enabled, orientation is locked, otherwise try to be responsive
+
+### 10:30pm
+- think about some puzzles, like rolling over switches and picking up items to affect NPCs
+- inv has 1 slot and there is no drop, so if you pick something up, you need to find someone to take it
+- rubber bands?
+- some items consumable (no use action either, goes into effect right away)
+- NPCs that start above buildings, trigger to release
+- "must go through doors like Kool Aid Man" (no hands!), replay feature to show carnage
+- have to hit doors hard to open them, then they break while passing through (no backsies)
+- "characters in relation to course imply story" (only vaguely remember what that means the next morning)
+- some choices cause environmental effects (choice and exit door mean the same thing)
+- ex: triggers for floods and landslides
+- no jumping but can catch air off of ramps
+- so, maybe a puzzle could be a ramp you need to go fast enough over to clear a jump and hit the door hard
+- obligatory squeezing through of narrow spaces (difficulty level determines if you really have to aim or it's more like bumper bowling)
+- stats: top SPeeD, DEXterity (handling, force applied by controls, ACCeleration), RADius, MASs
+- console verbs: lock, unlock, list, get, set, reset, help
+- get/list/set vars: gravity, friction, max speed, force, radius, mass
+
+### 10:45pm
+- calculate 2-3 segment primary pathfinding
+- if room has 2 exits, pick segment and do same from a point on the segment to other exit
+- use blocks and half blocks for contours
+- for now let's make the main course be 100% voxel and then add terrain detail on 2nd pass
+- calculate 3 largest contiguous flat surfaces
+- maybe pick a larger building to put on the largest surfaces
+- add some jumps on pass 1.5
+- have a couple of items with different ways to obtain (exits and items are color coded good/evil)

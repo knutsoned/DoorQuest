@@ -4,7 +4,8 @@ import type { Scene } from "@babylonjs/core/scene";
 // Change this import to check other scenes
 // any file in the scenes folder should do
 //import { DefaultSceneWithTexture } from "./scenes/defaultWithTexture";
-import { PhysicsSceneWithAmmo } from "./scenes/physicsWithAmmo";
+//import { PhysicsSceneWithAmmo } from "./scenes/physicsWithAmmo";
+import { MainScene } from "./game/mainScene";
 
 export interface CreateSceneClass {
   createScene: (engine: Engine, canvas: HTMLCanvasElement) => Promise<Scene>;
@@ -17,5 +18,5 @@ export interface CreateSceneModule {
 
 export const getSceneModule = (): CreateSceneClass => {
   //return new DefaultSceneWithTexture();
-  return new PhysicsSceneWithAmmo();
+  return new MainScene();
 };

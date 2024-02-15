@@ -1,3 +1,4 @@
+import { Texture } from "@babylonjs/core";
 import { Engine } from "@babylonjs/core/Engines/engine";
 import { Scene } from "@babylonjs/core/scene";
 import { ArcRotateCamera } from "@babylonjs/core/Cameras/arcRotateCamera";
@@ -9,13 +10,14 @@ import { AmmoJSPlugin } from "@babylonjs/core/Physics/Plugins/ammoJSPlugin";
 import "@babylonjs/core/Physics/physicsEngineComponent";
 
 // If you don't need the standard material you will still need to import it since the scene requires it.
-import "@babylonjs/core/Materials/standardMaterial";
+import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
 import Ammo from "ammojs-typed";
 import { CreateSceneClass } from "../createScene";
 
-// basis of MainScene, only change from example was fixing Ammo init
-export class PhysicsSceneWithAmmo implements CreateSceneClass {
+import { Config } from "../game";
+
+export class MainScene implements CreateSceneClass {
   createScene = async (
     engine: Engine,
     canvas: HTMLCanvasElement
@@ -51,17 +53,28 @@ export class PhysicsSceneWithAmmo implements CreateSceneClass {
     light.intensity = 0.7;
 
     // Our built-in 'sphere' shape.
-    const sphere = CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
+    const sphere = CreateSphere(
+      "sphere",
+      { diameter: Config.vars.radius * 2, segments: 32 },
+      scene
+    );
 
     sphere.physicsImpostor = new PhysicsImpostor(
       sphere,
       PhysicsImpostor.SphereImpostor,
-      { mass: 2, restitution: 0.8 },
+      { mass: Config.vars.mass, restitution: 0.8 },
       scene
     );
 
     // Move the sphere upward 1/2 its height
     sphere.position.y = 5;
+
+    // apply earth texture from https://forum.babylonjs.com/t/apply-texture-to-sphere-without-wide-seems/3432
+    const earthMap = new StandardMaterial("earthMat", scene);
+    const earthTex = new Texture("../../assets/textures/earth.jpg", scene);
+    earthTex.vScale *= -1; // fix upside down PNG loading per https://github.com/BabylonJS/Babylon.js/issues/12545
+    earthMap.diffuseTexture = earthTex;
+    sphere.material = earthMap;
 
     // Our built-in 'ground' shape.
     const ground = CreateGround("ground", { width: 6, height: 6 }, scene);
@@ -76,4 +89,4 @@ export class PhysicsSceneWithAmmo implements CreateSceneClass {
   };
 }
 
-export default new PhysicsSceneWithAmmo();
+export default new MainScene();

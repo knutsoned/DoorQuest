@@ -16,7 +16,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - graphics style like 1980s Sierra adventure games
 - player character is an anthropomorphic crystal ball
 - interactions are automatic by rolling over to hitbox
-- QEASD-default plus hotkeys control scheme manages accel/devel and console access
+- WASD-default plus hotkeys control scheme manages accel/devel and console access
 - physics is realistic in the sense that there is friction and controls apply force only
 - start screen is a room containing a book and a locked door
 - opening the book pulls up ~~cheat code~~developer console
@@ -130,6 +130,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - NPCs that start above buildings, trigger to release
 - "must go through doors like Kool Aid Man" (no hands!), replay feature to show carnage
 - have to hit doors hard to open them, then they break while passing through (no backsies)
+- something about mini-rooms with doors that open and you can duck inside to hide from NPCs, but then sometimes they just teleport you to a different mini-room and sometimes NPCs spawn from them
 - "characters in relation to course imply story" (only vaguely remember what that means the next morning)
 - some choices cause environmental effects (choice and exit door mean the same thing)
 - ex: triggers for floods and landslides
@@ -149,3 +150,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - maybe pick a larger building to put on the largest surfaces
 - add some jumps on pass 1.5
 - have a couple of items with different ways to obtain (exits and items are color coded good/evil)
+
+## Thursday
+### 9:45am
+- create a burndown list for the next couple hours: add texture to sphere, build UI shell, see if Sensor API actually works

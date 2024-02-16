@@ -1,4 +1,6 @@
 // via https://github.com/microsoft/TypeScript/issues/38886
+import { Camera } from "@babylonjs/core/Cameras/camera";
+import { Viewport } from "@babylonjs/core/Maths/math.viewport";
 import { KeyboardEventKey } from "keyboard-event-key-type"; // seems like a good idea at this time
 
 // restrict config values to 1..255, sounds pretty easy
@@ -19,7 +21,17 @@ export const uint8NZ = (value: number): UInt8NZ => {
 export enum UIMode {
   TextOnly,
   Also3D,
+  Full3D,
 }
+
+export type CameraMap = { [name: string]: Camera };
+
+export type UICameraConfig = Viewport | false;
+
+export type UICameraMode = {
+  mode: UIMode;
+  config: { [key: string]: UICameraConfig };
+};
 
 export interface IConfig {
   vars: {
@@ -38,6 +50,9 @@ export interface IConfig {
     showMap: boolean;
     showSecondView: boolean;
     swapViews: boolean;
+
+    // camera setup
+    cameras: UICameraMode[];
 
     // control mode flags
     control: {

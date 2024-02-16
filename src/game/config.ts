@@ -1,5 +1,7 @@
 import { GameKeyboardMapping, IConfig, UIMode, uint8NZ } from "./types";
 
+import { Viewport } from "@babylonjs/core/Maths/math.viewport";
+
 // default key map
 export const KeyboardMappingNeutral: GameKeyboardMapping = {
   direction: {
@@ -29,7 +31,7 @@ export const Config: IConfig = {
 
   // UI flags
   ui: {
-    mode: UIMode.TextOnly, // 0===console, 1===3D
+    mode: UIMode.Also3D,
     hideSidebar: true, // only applies if mode===1, tab cycles through 0, 1/true, 1/false
     showMap: true, // show overhead map, only applies if mode===1
     showSecondView: true, // show alternate view, default 1st person perspective, only applies if mode===1
@@ -46,5 +48,29 @@ export const Config: IConfig = {
       },
       touchEnabled: false, // enable for mobile
     },
+
+    cameras: [
+      {
+        mode: UIMode.TextOnly,
+        config: {
+          camera: false,
+          camera2: false,
+        },
+      },
+      {
+        mode: UIMode.Also3D,
+        config: {
+          camera: new Viewport(0, 0, 0.56, 1),
+          camera2: new Viewport(0.56, 0.56, 0.19, 0.44),
+        },
+      },
+      {
+        mode: UIMode.Full3D,
+        config: {
+          camera: new Viewport(0, 0, 1.0, 1.0),
+          camera2: false,
+        },
+      },
+    ],
   },
 };

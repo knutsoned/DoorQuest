@@ -30,22 +30,20 @@ export class Start {
   origin = Vector3.ZeroReadOnly;
 
   // requestAnimationFrame
-  handleBeforeRender(scene: Scene) {
-    scene.onBeforeRenderObservable.add(() => {
-      const ball = this.ball;
-      const fpvCam = this.cameras[CameraView.FPVCam];
+  handleBeforeRender() {
+    const ball = this.ball;
+    const fpvCam = this.cameras[CameraView.FPVCam];
 
-      // update fpvCam if present to track ball direction and location
-      if (Config.ui.cameras[this.mode][CameraView.FPVCam]) {
-        // https://forum.babylonjs.com/t/what-is-the-best-way-to-switch-the-camera-in-the-direction-of-mesh-movement/27669
-        var velocity = ball.physicsImpostor.getLinearVelocity().normalize();
-        fpvCam.position = ball.position;
-        fpvCam.setTarget(ball.position.add(velocity));
-      }
+    // update fpvCam if present to track ball direction and location
+    if (Config.ui.cameras[this.mode][CameraView.FPVCam]) {
+      // https://forum.babylonjs.com/t/what-is-the-best-way-to-switch-the-camera-in-the-direction-of-mesh-movement/27669
+      var velocity = ball.physicsImpostor.getLinearVelocity().normalize();
+      fpvCam.position = ball.position;
+      fpvCam.setTarget(ball.position.add(velocity));
+    }
 
-      // apply force to left
-      ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), this.origin);
-    });
+    // apply force to left
+    ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), this.origin);
   }
 
   // keys.buttons.switch
@@ -228,7 +226,9 @@ export class Start {
       console.log("multiview");
     }
 
-    this.handleBeforeRender(scene);
+    scene.onBeforeRenderObservable.add(() => {
+      this.handleBeforeRender();
+    });
 
     this.handleUiModeChange(scene);
   };

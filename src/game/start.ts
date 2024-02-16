@@ -11,8 +11,9 @@ import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";
 import { CreateBox } from "@babylonjs/core/Meshes/Builders/boxBuilder";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
 import { CreateSphere } from "@babylonjs/core/Meshes/Builders/sphereBuilder";
+import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
+import "@babylonjs/loaders/glTF";
 
-import { BrickProceduralTexture } from "@babylonjs/procedural-textures/brick/brickProceduralTexture";
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
 import { RefractionTexture } from "@babylonjs/core/Materials/Textures/refractionTexture";
 import { SkyMaterial } from "@babylonjs/materials";
@@ -22,9 +23,11 @@ import { mkAlea } from "@spissvinkel/alea";
 
 import { Config } from ".";
 import { CameraMap, CameraView, UIMode } from "./types";
+import { bricks } from "./flotsam";
 
 export class Start {
   ball: Mesh;
+  wizardHat: Mesh;
   cameras: CameraMap = {};
   mode: UIMode = UIMode.Also3D;
   origin = Vector3.ZeroReadOnly;
@@ -41,6 +44,8 @@ export class Start {
       fpvCam.position = ball.position;
       fpvCam.setTarget(ball.position.add(velocity));
     }
+
+    // update rotation of wizard hat
 
     // apply force to left
     ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), this.origin);
@@ -74,7 +79,7 @@ export class Start {
     }
   };
 
-  preparing = (scene: Scene): void => {
+  preparing = async (scene: Scene): Promise<void> => {
     const { random } = mkAlea();
 
     const fpo = true; // display mock up stuff
@@ -154,13 +159,7 @@ export class Start {
     // Our built-in 'ground' shape.
     const ground = CreateGround("ground", { width: 18, height: 18 }, scene);
 
-    let brickMaterial = new StandardMaterial("brickMat", scene);
-    let brickTexture = new BrickProceduralTexture("brickTex", 512, scene);
-    brickTexture.numberOfBricksHeight = 40;
-    brickTexture.brickColor = new Color3(0.32, 0.32, 0.323);
-    brickTexture.numberOfBricksWidth = 10;
-    brickMaterial.diffuseTexture = brickTexture;
-    ground.material = brickMaterial;
+    ground.material = bricks(scene);
 
     ground.physicsImpostor = new PhysicsImpostor(
       ground,
@@ -176,6 +175,7 @@ export class Start {
       { diameter: Config.vars.radius, segments: 32 }, // sic
       scene
     );
+    this.ball = ball;
 
     ball.physicsImpostor = new PhysicsImpostor(
       ball,
@@ -214,10 +214,14 @@ export class Start {
     // robe
 
     // and wizard hat
-
-    // ball 1st person cam
-    //camera2.parent = ball;
-    this.ball = ball;
+    const importResult = await SceneLoader.ImportMeshAsync(
+      "",
+      "./assets/glb/",
+      "stylized_wizard_hat.glb",
+      scene,
+      undefined,
+      ".glb"
+    );
 
     // END: init Balltholemew
 

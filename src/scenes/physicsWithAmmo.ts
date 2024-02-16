@@ -14,6 +14,8 @@ import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
 import Ammo from "ammojs-typed";
 import { CreateSceneClass } from "../createScene";
 
+import { bricks } from "../game/flotsam";
+
 // basis of MainScene, only change from example was fixing Ammo init
 export class PhysicsSceneWithAmmo implements CreateSceneClass {
   createScene = async (
@@ -65,6 +67,7 @@ export class PhysicsSceneWithAmmo implements CreateSceneClass {
 
     // Our built-in 'ground' shape.
     const ground = CreateGround("ground", { width: 6, height: 6 }, scene);
+    ground.material = bricks(scene);
 
     ground.physicsImpostor = new PhysicsImpostor(
       ground,

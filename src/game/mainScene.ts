@@ -11,8 +11,8 @@ import { Start } from "./start";
 // adapted from ../scenes/physicsWithAmmo.ts
 export class MainScene implements CreateSceneClass {
   createScene = async (
-    engine: Engine,
-    canvas: HTMLCanvasElement
+    engine: Engine
+    //canvas: HTMLCanvasElement
   ): Promise<Scene> => {
     // This creates a basic Babylon Scene object (non-mesh)
     const scene = new Scene(engine);
@@ -44,7 +44,7 @@ export class MainScene implements CreateSceneClass {
     one for exporting a Godot ECMAScript mod, one for ts-defold...
     */
     const start = new Start();
-    start.preparing(scene);
+    await start.preparing(scene);
 
     return scene;
   };

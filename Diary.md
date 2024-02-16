@@ -77,7 +77,7 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - long press of main button is esc/tab, even in console
 - tab switches between full console (default), 3D view with console sidebar, 3D only
 - when console has focus, accept [A-Za-z0-9], space, backspace, enter
-- mouse dragging will rotate view (OrbitControls for camera)
+- mouse dragging will rotate view (ArcRotate/OrbitControls for camera)
 - basic dialogs take focus, non-choice can be dismissed with tab (back to previous view)
 - level shape system as interchangeable blocks with variations
 - story structure determines shape of paths (door === story choice)
@@ -153,8 +153,16 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 
 ## Thursday
 ### 9:45am
-- create a burndown list for the next couple hours: add texture to sphere, build UI shell, see if Sensor API actually works
+- create a burndown list for the next couple hours: add texture to sphere, build UI shell, see if Sensor API actually works (added texture, thought about UI, found Gamepad API is a mess, not sure about Sensor)
 
 ## 11:05am
 - got the texture to stop displaying upside down and read up on indices and positions for mesh building https://playground.babylonjs.com/#I092BE
 - start work on UI key mapping based on https://stephendoddtech.com/blog/game-design/keyboard-event-game-input-map
+
+## Friday
+### 11am
+- will copy notes from last night later
+- sprint meta-grooming: focus on making one level with one exit that feels done
+- then make a variation with two exits, then make some interchangeable pieces
+- previous control scheme could change camera with mouse, now make camera fixed and let mouse be like a gamepad
+- also try to include thee most basic gamepad support 

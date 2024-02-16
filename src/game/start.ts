@@ -1,11 +1,11 @@
 import { Color3 } from "@babylonjs/core/Maths/math.color";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import { Plane } from "@babylonjs/core/Maths/math.plane";
 import { Scene } from "@babylonjs/core/scene";
-//import { Texture } from "@babylonjs/core/Materials/Textures/texture"
+import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 
-import { FollowCamera } from "@babylonjs/core/Cameras/followCamera";
 import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";
 
 import { CreateBox } from "@babylonjs/core/Meshes/Builders/boxBuilder";
@@ -21,29 +21,51 @@ import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 import { mkAlea } from "@spissvinkel/alea";
 
 import { Config } from ".";
-import { CameraMap, UIMode } from "./types";
+import { CameraMap, CameraView, UIMode } from "./types";
 
 export class Start {
+  ball: Mesh;
   cameras: CameraMap = {};
+  mode: UIMode = UIMode.Also3D;
+  origin = Vector3.ZeroReadOnly;
 
-  handleUiModeChange = (mode: UIMode, scene: Scene): void => {
-    const cameraMode = Config.ui.cameras.find((value) => {
-      if (mode === value.mode) {
-        return true;
+  // requestAnimationFrame
+  handleBeforeRender(scene: Scene) {
+    scene.onBeforeRenderObservable.add(() => {
+      const ball = this.ball;
+      const fpvCam = this.cameras[CameraView.FPVCam];
+
+      // update fpvCam if present to track ball direction and location
+      if (Config.ui.cameras[this.mode][CameraView.FPVCam]) {
+        // https://forum.babylonjs.com/t/what-is-the-best-way-to-switch-the-camera-in-the-direction-of-mesh-movement/27669
+        var velocity = ball.physicsImpostor.getLinearVelocity().normalize();
+        fpvCam.position = ball.position;
+        fpvCam.setTarget(ball.position.add(velocity));
       }
-      return false;
+
+      // apply force to left
+      ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), this.origin);
     });
+  }
+
+  // keys.buttons.switch
+  handleUiModeChange = (scene: Scene): void => {
+    // get the config matching the UIMode
+    const cameras = Config.ui.cameras[this.mode];
+
+    // clear active cameras
     const activeCameras = scene.activeCameras;
     if (activeCameras) {
       while (activeCameras.length > 0) {
-        console.log("popping cam");
         activeCameras.pop();
       }
     }
-    if (cameraMode) {
-      Object.keys(this.cameras).forEach((cameraName) => {
-        const config = cameraMode.config[cameraName];
-        const camera = this.cameras[cameraName];
+
+    // add the cameras defined for this UIMode
+    if (cameras) {
+      Object.keys(this.cameras).forEach((key) => {
+        const config = cameras[key];
+        const camera = this.cameras[key];
         if (camera) {
           if (config) {
             camera.viewport = config;
@@ -57,7 +79,8 @@ export class Start {
   preparing = (scene: Scene): void => {
     const { random } = mkAlea();
 
-    const origin = Vector3.ZeroReadOnly;
+    const fpo = true; // display mock up stuff
+
     const sunPosition = new Vector3(0, 20, 0);
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
@@ -80,22 +103,18 @@ export class Start {
     );
     */
 
-    const camera = new UniversalCamera("main view", new Vector3(0, 12, 16));
+    const mainView = new UniversalCamera("main view", new Vector3(0, 12, 16));
     // This targets the camera to scene origin
-    camera.setTarget(origin);
+    mainView.setTarget(this.origin);
     // This attaches the camera to the canvas
     //camera.attachControl(canvas, true);
-    this.cameras.camera = camera;
+    this.cameras[CameraView.MainView] = mainView;
 
-    const camera2 = new UniversalCamera(
-      "chase cam",
-      new Vector3(0, 0, 0),
-      scene
-    );
-    this.cameras.camera2 = camera2;
+    const fpvCam = new UniversalCamera("FPV cam", new Vector3(0, 0, 0), scene);
+    this.cameras[CameraView.FPVCam] = fpvCam;
 
     // Skybox
-    var box = CreateBox(
+    let box = CreateBox(
       "sky",
       {
         size: 1000,
@@ -109,32 +128,36 @@ export class Start {
     skyMaterial.useSunPosition = true; // Do not set sun position from azimuth and inclination
     skyMaterial.sunPosition = sunPosition;
 
-    // FPO
-    const sphereBottomLeft = CreateSphere(
-      "sphere",
-      { diameter: 2, segments: 32 },
-      scene
-    );
-    var bottomLeftMaterial = new StandardMaterial("bottomLeft", scene);
-    bottomLeftMaterial.diffuseColor = new Color3(1, 0, 0); // red
-    sphereBottomLeft.material = bottomLeftMaterial;
-    sphereBottomLeft.position = new Vector3(9, 0, 9);
+    // BEGIN: FPO
+    if (fpo) {
+      const sphereBottomLeft = CreateSphere(
+        "sphere",
+        { diameter: 2, segments: 32 },
+        scene
+      );
+      let bottomLeftMaterial = new StandardMaterial("bottomLeft", scene);
+      bottomLeftMaterial.diffuseColor = new Color3(1, 0, 0); // red
+      sphereBottomLeft.material = bottomLeftMaterial;
+      sphereBottomLeft.position = new Vector3(9, 0, 9);
 
-    const sphereTopRight = CreateSphere(
-      "sphere",
-      { diameter: 2, segments: 32 },
-      scene
-    );
-    var topRightMaterial = new StandardMaterial("topRight", scene);
-    topRightMaterial.diffuseColor = new Color3(0, 0, 1); // blue
-    sphereTopRight.material = topRightMaterial;
-    sphereTopRight.position = new Vector3(-9, 0, -9);
+      const sphereTopRight = CreateSphere(
+        "sphere",
+        { diameter: 2, segments: 32 },
+        scene
+      );
+      let topRightMaterial = new StandardMaterial("topRight", scene);
+      topRightMaterial.diffuseColor = new Color3(0, 0, 1); // blue
+      sphereTopRight.material = topRightMaterial;
+      sphereTopRight.position = new Vector3(-9, 0, -9);
+    }
+    // END: FPO
 
+    // BEGIN: init ground
     // Our built-in 'ground' shape.
     const ground = CreateGround("ground", { width: 18, height: 18 }, scene);
 
-    var brickMaterial = new StandardMaterial("brickMat", scene);
-    var brickTexture = new BrickProceduralTexture("brickTex", 512, scene);
+    let brickMaterial = new StandardMaterial("brickMat", scene);
+    let brickTexture = new BrickProceduralTexture("brickTex", 512, scene);
     brickTexture.numberOfBricksHeight = 40;
     brickTexture.brickColor = new Color3(0.32, 0.32, 0.323);
     brickTexture.numberOfBricksWidth = 10;
@@ -146,6 +169,7 @@ export class Start {
       PhysicsImpostor.BoxImpostor,
       { mass: 0, restitution: 0.6 }
     );
+    // END: init ground
 
     // BEGIN: init Balltholemew
     // Our built-in 'sphere' shape.
@@ -162,9 +186,9 @@ export class Start {
       scene
     );
 
-    // Move the sphere upward
+    // Move the sphere away from cam
     ball.position = new Vector3(0, 2.5, 8);
-    ball.physicsImpostor.applyImpulse(new Vector3(0, 0, -1), origin);
+    ball.physicsImpostor.applyImpulse(new Vector3(-0.5, 0, -1), this.origin);
 
     // apply earth texture from https://forum.babylonjs.com/t/apply-texture-to-sphere-without-wide-seems/3432
     /*
@@ -176,10 +200,10 @@ export class Start {
     */
     // make the sphere like a magnifying glass
     // Main material
-    var glassesMaterial = new StandardMaterial("main", scene);
+    let glassesMaterial = new StandardMaterial("main", scene);
     ball.material = glassesMaterial;
 
-    var refractionTexture = new RefractionTexture("th", 1024, scene);
+    let refractionTexture = new RefractionTexture("th", 1024, scene);
     refractionTexture.renderList.push(ground);
     //refractionTexture.refractionPlane = new Plane(0, 0, -1, 0);
     refractionTexture.refractionPlane = new Plane(0, 0, -9, 0);
@@ -195,6 +219,7 @@ export class Start {
 
     // ball 1st person cam
     //camera2.parent = ball;
+    this.ball = ball;
 
     // END: init Balltholemew
 
@@ -202,7 +227,10 @@ export class Start {
     if (scene.getEngine().getCaps().multiview) {
       console.log("multiview");
     }
-    this.handleUiModeChange(UIMode.Also3D, scene);
+
+    this.handleBeforeRender(scene);
+
+    this.handleUiModeChange(scene);
   };
 }
 

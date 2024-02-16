@@ -1,8 +1,14 @@
-import { GameKeyboardMapping, IConfig, UIMode, uint8NZ } from "./types";
+import {
+  CameraView,
+  GameKeyboardMapping,
+  IConfig,
+  UIMode,
+  uint8NZ,
+} from "./types";
 
 import { Viewport } from "@babylonjs/core/Maths/math.viewport";
 
-// default key map
+// default keys
 export const KeyboardMappingNeutral: GameKeyboardMapping = {
   direction: {
     up: ["w", "ArrowUp"],
@@ -14,6 +20,8 @@ export const KeyboardMappingNeutral: GameKeyboardMapping = {
     action: [" "],
     switch: ["Tab"],
     back: ["Escape"],
+    toggleMap: ["m"],
+    togglePerspective: ["p"],
   },
 };
 
@@ -49,28 +57,19 @@ export const Config: IConfig = {
       touchEnabled: false, // enable for mobile
     },
 
-    cameras: [
-      {
-        mode: UIMode.TextOnly,
-        config: {
-          camera: false,
-          camera2: false,
-        },
+    cameras: {
+      [UIMode.TextOnly]: {
+        [CameraView.MainView]: false,
+        [CameraView.FPVCam]: false,
       },
-      {
-        mode: UIMode.Also3D,
-        config: {
-          camera: new Viewport(0, 0, 0.56, 1),
-          camera2: new Viewport(0.56, 0.56, 0.19, 0.44),
-        },
+      [UIMode.Also3D]: {
+        [CameraView.MainView]: new Viewport(0, 0, 0.56, 1),
+        [CameraView.FPVCam]: new Viewport(0.56, 0.56, 0.19, 0.44),
       },
-      {
-        mode: UIMode.Full3D,
-        config: {
-          camera: new Viewport(0, 0, 1.0, 1.0),
-          camera2: false,
-        },
+      [UIMode.Full3D]: {
+        [CameraView.MainView]: new Viewport(0, 0, 1.0, 1.0),
+        [CameraView.FPVCam]: false,
       },
-    ],
+    },
   },
 };

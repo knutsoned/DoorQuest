@@ -1,5 +1,5 @@
 // via https://github.com/microsoft/TypeScript/issues/38886
-import { Camera } from "@babylonjs/core/Cameras/camera";
+import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";
 import { Viewport } from "@babylonjs/core/Maths/math.viewport";
 import { KeyboardEventKey } from "keyboard-event-key-type"; // seems like a good idea at this time
 
@@ -18,19 +18,27 @@ export const uint8NZ = (value: number): UInt8NZ => {
   return value as UInt8NZ;
 };
 
+// declaring key constants for maps
+// trying to remember why you're not supposed to do this
 export enum UIMode {
   TextOnly,
   Also3D,
   Full3D,
 }
 
-export type CameraMap = { [name: string]: Camera };
+export type CameraMap = {
+  [view in CameraView]?: UniversalCamera;
+};
+
+export enum CameraView {
+  MainView,
+  FPVCam,
+}
 
 export type UICameraConfig = Viewport | false;
 
 export type UICameraMode = {
-  mode: UIMode;
-  config: { [key: string]: UICameraConfig };
+  [view in CameraView]?: UICameraConfig;
 };
 
 export interface IConfig {
@@ -52,7 +60,9 @@ export interface IConfig {
     swapViews: boolean;
 
     // camera setup
-    cameras: UICameraMode[];
+    cameras: {
+      [mode in UIMode]?: UICameraMode;
+    };
 
     // control mode flags
     control: {
@@ -69,7 +79,9 @@ export type DefaultControls =
   | "a" // left
   | "s" // down
   | "d" // right
-  | " "; // action;
+  | " " // action
+  | "m" // toggle map
+  | "p"; // toggle perspective
 
 export type GameKeyboardMapping = {
   direction: {
@@ -82,6 +94,8 @@ export type GameKeyboardMapping = {
     action: KeyboardEventKey[]; // button, enter, etc
     switch: KeyboardEventKey[]; // tab
     back: KeyboardEventKey[]; // esc, shift-tab
+    toggleMap: KeyboardEventKey[];
+    togglePerspective: KeyboardEventKey[];
   };
 };
 

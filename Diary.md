@@ -166,3 +166,6 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 - then make a variation with two exits, then make some interchangeable pieces
 - previous control scheme could change camera with mouse, now make camera fixed and let mouse be like a gamepad
 - also try to include thee most basic gamepad support 
+
+### 8pm
+- added a better sky texture and refraction for ball, added wizard hat that rotates in direction of motion

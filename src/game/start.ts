@@ -4,6 +4,8 @@ import { Scene } from "@babylonjs/core/scene";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { HDRCubeTexture } from "@babylonjs/core/Materials/Textures/hdrCubeTexture";
 
+import { start as AcidBanger } from "../acid-banger/app";
+
 import { CameraMap, CameraView, IConfig, UIMode } from "./types";
 import { createFPOs } from "./fpo";
 import * as World from "./createWorld";
@@ -87,6 +89,10 @@ export class Start {
 
     // little push to straighten out
     //this.ball.physicsImpostor.applyForce(new Vector3(-1, 0, 0), Config.origin);
+
+    // ACID INTENSIFIES
+    AcidBanger();
+    console.log("AcidBanger");
   };
 }
 

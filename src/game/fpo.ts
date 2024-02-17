@@ -8,6 +8,7 @@ import { Mesh } from "@babylonjs/core/Meshes/mesh";
 // for placement only
 export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
   const random = config.prng.random;
+  const worldSize = config.const.world.width;
   const moveScale = 42;
   const moveMin = 17;
   // Move the sphere away from cam
@@ -29,7 +30,6 @@ export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
     config.const.origin
   );
 
-  /*
   // red sphere (bottom left)
   const sphereBottomLeft = CreateSphere(
     "sphere",
@@ -39,8 +39,9 @@ export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
   let bottomLeftMaterial = new StandardMaterial("bottomLeft", scene);
   bottomLeftMaterial.diffuseColor = new Color3(1, 0, 0); // red
   sphereBottomLeft.material = bottomLeftMaterial;
-  sphereBottomLeft.position = new Vector3(9, 0, 9);
+  sphereBottomLeft.position = new Vector3(worldSize / 2, 0, worldSize / 2);
 
+  /*
   // blue sphere (upper right)
   const sphereTopRight = CreateSphere(
     "sphere",

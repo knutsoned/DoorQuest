@@ -288,8 +288,10 @@ export async function start() {
     */
 }
 
+/* Ed. note: replacing this with a call from ../game/start
 pressToStart(
   start,
   "The Endless Acid Banger",
   "A collaboration between human and algorithm by Vitling"
 );
+*/

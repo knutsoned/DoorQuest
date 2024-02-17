@@ -15,3 +15,9 @@ https://sketchfab.com/3d-models/stylized-wizard-hat-f59021d602334367987bcd7657ce
 
 Original project template (c) 2020 Raanan Weber licensed under Apache 2.0
 https://github.com/RaananW/babylonjs-webpack-es6
+
+Additional brick textures by Sab licensed under CC BY 4.0
+https://www.texturepalace.com/15-brick-wall-texture-for-layers/
+
+DOS spreadsheet via https://commons.wikimedia.org/wiki/User:Ganimoth
+Licensed under CC BY-SA 3.0

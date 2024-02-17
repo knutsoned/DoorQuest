@@ -47,7 +47,11 @@ export type UICameraMode = {
 };
 
 export interface IConfig {
-  prng: PRNG;
+  prng: {
+    impl: PRNG;
+    random: () => number;
+    seed?: string;
+  };
   var: {
     mass: UInt8NZ;
     radius: UInt8NZ;

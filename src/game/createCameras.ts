@@ -5,7 +5,7 @@ import { CameraMap, CameraView, IConfig, UIMode } from "./types";
 
 export function init(config: IConfig): CameraMap {
   const cameraMap: CameraMap = {};
-  const mainView = new UniversalCamera("main view", new Vector3(0, 7, 10)); // PROD
+  const mainView = new UniversalCamera("main view", new Vector3(0, 15, 16.1)); // PROD
   //const mainView = new UniversalCamera("main view", new Vector3(0, 1, 8));
 
   // This targets the camera to scene origin

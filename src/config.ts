@@ -31,10 +31,16 @@ export const KeyboardMappingNeutral: GameKeyboardMapping = {
 const MainViewport = new Viewport(0, 0, 0.56, 1);
 const FullViewport = new Viewport(0, 0, 1.0, 1.0);
 const SmallViewport = new Viewport(0.56, 0.56, 0.19, 0.44);
-console.log(new Date().toString());
+
+const seed = new Date().toString();
+const prng = mkAlea(seed);
 
 export const Config: IConfig = {
-  prng: mkAlea(new Date().toString()),
+  prng: {
+    impl: prng,
+    seed: seed,
+    random: prng.random,
+  },
 
   // variables available to terminal
   // range 1..256 (mapping a range of 0.01 to 1.0 means about .004 per unit)
@@ -54,7 +60,7 @@ export const Config: IConfig = {
     //hatOffset: new Vector3(0, -2.5, -0.5),
     hatOffset: new Vector3(0, -3.3, 0),
     world: {
-      width: 18,
+      width: 27,
       height: 8,
     },
   },
@@ -67,7 +73,7 @@ export const Config: IConfig = {
     showSecondView: true, // show alternate view, default 1st person perspective, only applies if mode===1
     swapViews: false, // show 1st person in main view with 3rd person in secondary, only applies if mode===1
     //cameraMouse: false, // PROD
-    cameraMouse: true, // allow mouse to move camera around
+    cameraMouse: false, // allow mouse to move camera around
 
     // control mode flags
     control: {

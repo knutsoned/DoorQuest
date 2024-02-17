@@ -9,19 +9,19 @@ import { Mesh } from "@babylonjs/core/Meshes/mesh";
 export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
   const random = config.prng.random;
   const moveScale = 42;
+  const moveMin = 17;
   // Move the sphere away from cam
   //this.ball.position = new Vector3(0, 2.5, 8); // prod
   //this.ball.position = new Vector3(0, 2.5, 0);
   ball.position = new Vector3(0, config.var.radius, 0);
 
   const movement = () => {
-    return (random() - 0.5) * moveScale;
+    const base = random() * moveScale + moveMin;
+    return random() > 0.5 ? base : -base;
   };
 
   const moveX = movement();
-  console.log("x: " + moveX);
   const moveY = movement();
-  console.log("y: " + moveY);
 
   ball.physicsImpostor.applyImpulse(
     //new Vector3(0.5, 0, 0.1),
@@ -29,6 +29,7 @@ export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
     config.const.origin
   );
 
+  /*
   // red sphere (bottom left)
   const sphereBottomLeft = CreateSphere(
     "sphere",
@@ -50,4 +51,5 @@ export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
   topRightMaterial.diffuseColor = new Color3(0, 0, 1); // blue
   sphereTopRight.material = topRightMaterial;
   sphereTopRight.position = new Vector3(-9, 0, -9);
+  */
 }

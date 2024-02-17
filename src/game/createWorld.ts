@@ -1,4 +1,5 @@
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { PointLight } from "@babylonjs/core/lights/PointLight";
 import { Vector3 } from "@babylonjs/core/Maths/math";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
@@ -16,7 +17,10 @@ export function init(
   scene: Scene,
   config: IConfig
 ) {
-  const sunPosition = new Vector3(0, 20, 0);
+  //const sunPosition = new Vector(0, 20, 0);
+  const sunPosition = new Vector3(0, 20, 2);
+  const sun = new PointLight("sun", sunPosition, scene);
+  sun.intensity = 0.9;
 
   // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
   const light = new HemisphericLight("light", sunPosition, scene);
@@ -52,26 +56,27 @@ export function init(
   ground.physicsImpostor = new PhysicsImpostor(
     ground,
     PhysicsImpostor.BoxImpostor,
-    { mass: 0, restitution: 0.6 }
+    { mass: 0, restitution: 0.8 }
   );
   // END: init ground
 
   // BEGIN: init walls
+  const brickIndex = Math.ceil(config.prng.random() * 5);
   const halfSize = config.const.world.width / 2;
   const quarterTurn = config.const.quarterTurn;
 
-  const farWall = createWall(scene, config);
+  const farWall = createWall(brickIndex, scene, config);
   farWall.position.z -= halfSize;
 
-  const leftWall = createWall(scene, config);
+  const leftWall = createWall(brickIndex, scene, config);
   leftWall.position.x += halfSize;
   leftWall.rotate(Vector3.Up(), quarterTurn);
 
-  const rightWall = createWall(scene, config);
+  const rightWall = createWall(brickIndex, scene, config);
   rightWall.position.x -= halfSize;
   rightWall.rotate(Vector3.Up(), quarterTurn);
 
-  const frontWall = createWall(scene, config);
+  const frontWall = createWall(brickIndex, scene, config);
   frontWall.position.z += halfSize;
   // END: init walls
 }

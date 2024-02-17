@@ -169,3 +169,9 @@ A 2.5D isometric or 3D fixed 3rd person platformer (refer to as 3D either way)
 
 ### 8pm
 - added a better sky texture and refraction for ball, added wizard hat that rotates in direction of motion
+
+## Saturday
+### 4:20pm
+- dude we're totally doing a pinball game
+- technically it's a perpetual pinball puzzler
+

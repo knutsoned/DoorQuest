@@ -11,6 +11,11 @@ export default defineConfig({
             id.includes("@babylonjs/core/scene")
           ) {
             return "BabylonCore";
+          } else if (
+            id.includes("@babylonjs/core/Loading") ||
+            id.includes("@babylonjs/loaders")
+          ) {
+            return "BabylonLoaders";
           } else if (id.includes("ammojs-typed")) {
             return "AmmoJS";
           }

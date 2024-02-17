@@ -1,5 +1,6 @@
 // via https://github.com/microsoft/TypeScript/issues/38886
 import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { Viewport } from "@babylonjs/core/Maths/math.viewport";
 import { KeyboardEventKey } from "keyboard-event-key-type"; // seems like a good idea at this time
 
@@ -42,13 +43,18 @@ export type UICameraMode = {
 };
 
 export interface IConfig {
-  vars: {
+  var: {
     mass: UInt8NZ;
     radius: UInt8NZ;
     gravity: UInt8NZ;
     force: UInt8NZ;
     friction: UInt8NZ;
     speed: UInt8NZ;
+  };
+
+  const: {
+    origin: Vector3;
+    hatOffset: Vector3;
   };
 
   // UI flags
@@ -58,6 +64,7 @@ export interface IConfig {
     showMap: boolean;
     showSecondView: boolean;
     swapViews: boolean;
+    cameraMouse: boolean;
 
     // camera setup
     cameras: {

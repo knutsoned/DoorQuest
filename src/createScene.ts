@@ -5,7 +5,7 @@ import type { Scene } from "@babylonjs/core/scene";
 // any file in the scenes folder should do
 //import { FresnelShaderScene } from "./scenes/fresnelShader";
 //import { PhysicsSceneWithAmmo } from "./scenes/physicsWithAmmo";
-import { MainScene } from "./game/mainScene";
+import { MainScene } from "./scenes/mainScene";
 
 export interface CreateSceneClass {
   createScene: (engine: Engine, canvas: HTMLCanvasElement) => Promise<Scene>;

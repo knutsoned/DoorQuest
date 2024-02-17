@@ -1,85 +1,71 @@
 import { Color3 } from "@babylonjs/core/Maths/math.color";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
+import { AbstractMesh } from "@babylonjs/core/Meshes/abstractMesh";
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
-import { Plane } from "@babylonjs/core/Maths/math.plane";
 import { Scene } from "@babylonjs/core/scene";
-import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
-
-import { UniversalCamera } from "@babylonjs/core/Cameras/universalCamera";
-
 import { CreateBox } from "@babylonjs/core/Meshes/Builders/boxBuilder";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
 import { CreateSphere } from "@babylonjs/core/Meshes/Builders/sphereBuilder";
-import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
-import "@babylonjs/loaders/glTF";
-
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
-import { RefractionTexture } from "@babylonjs/core/Materials/Textures/refractionTexture";
 import { SkyMaterial } from "@babylonjs/materials";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
+import { Texture } from "@babylonjs/core/Materials/Textures/texture";
+import { HDRCubeTexture } from "@babylonjs/core/Materials/Textures/hdrCubeTexture";
+import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
 
 import { mkAlea } from "@spissvinkel/alea";
 
 import { Config } from ".";
 import { CameraMap, CameraView, UIMode } from "./types";
 import { bricks } from "./flotsam";
+import * as Cameras from "./createCameras";
+import * as Balltholemew from "./createBall";
 
 export class Start {
   ball: Mesh;
+  hat: AbstractMesh;
   wizardHat: Mesh;
   cameras: CameraMap = {};
-  mode: UIMode = UIMode.Also3D;
-  origin = Vector3.ZeroReadOnly;
+  //mode: UIMode = UIMode.Also3D;
+  mode: UIMode = UIMode.Full3D;
 
   // requestAnimationFrame
   handleBeforeRender() {
     const ball = this.ball;
+    const ballPos = ball.position;
     const fpvCam = this.cameras[CameraView.FPVCam];
+    var ballVelocity = ball.physicsImpostor.getLinearVelocity().normalize();
 
     // update fpvCam if present to track ball direction and location
     if (Config.ui.cameras[this.mode][CameraView.FPVCam]) {
       // https://forum.babylonjs.com/t/what-is-the-best-way-to-switch-the-camera-in-the-direction-of-mesh-movement/27669
-      var velocity = ball.physicsImpostor.getLinearVelocity().normalize();
-      fpvCam.position = ball.position;
-      fpvCam.setTarget(ball.position.add(velocity));
+      fpvCam.position = ballPos;
+      fpvCam.setTarget(ball.position.add(ballVelocity));
     }
 
-    // update rotation of wizard hat
+    // update wizard hat
+    const hatOffset = Config.const.hatOffset;
+    const hatPosition = ballPos.add(hatOffset);
+    this.hat.position = hatPosition;
 
+    /*
+    this.hat.rotation = new Vector3(
+      ballVelocity.x,
+      ballVelocity.y,
+      ballVelocity.z
+    );
+    */
+    const flatVelocity = new Vector3(-ballVelocity.x, -0.1, -ballVelocity.z);
+    this.hat.lookAt(ballPos.add(flatVelocity).add(hatOffset));
     // apply force to left
-    ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), this.origin);
+    //ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), Config.origin);
   }
 
-  // keys.buttons.switch
-  handleUiModeChange = (scene: Scene): void => {
-    // get the config matching the UIMode
-    const cameras = Config.ui.cameras[this.mode];
-
-    // clear active cameras
-    const activeCameras = scene.activeCameras;
-    if (activeCameras) {
-      while (activeCameras.length > 0) {
-        activeCameras.pop();
-      }
-    }
-
-    // add the cameras defined for this UIMode
-    if (cameras) {
-      Object.keys(this.cameras).forEach((key) => {
-        const config = cameras[key];
-        const camera = this.cameras[key];
-        if (camera) {
-          if (config) {
-            camera.viewport = config;
-            scene.activeCameras.push(camera);
-          }
-        }
-      });
-    }
-  };
-
-  preparing = async (scene: Scene): Promise<void> => {
+  preparing = async (
+    scene: Scene,
+    canvas: HTMLCanvasElement
+  ): Promise<void> => {
     const { random } = mkAlea();
 
     const fpo = true; // display mock up stuff
@@ -94,45 +80,46 @@ export class Start {
 
     // cameras
     // This creates and positions a free camera (non-mesh)
+    this.cameras = Cameras.init();
 
-    /*
-    const camera = new ArcRotateCamera(
-      "my first camera",
-      0,
-      Math.PI / 3,
-      16,
-      new Vector3(0, 0, 0),
-      scene
+    // skybox texture
+    var hdrTexture = new HDRCubeTexture(
+      "./assets/textures/night.hdr",
+      scene,
+      512
     );
-    */
 
-    const mainView = new UniversalCamera("main view", new Vector3(0, 12, 16));
-    // This targets the camera to scene origin
-    mainView.setTarget(this.origin);
-    // This attaches the camera to the canvas
-    //camera.attachControl(canvas, true);
-    this.cameras[CameraView.MainView] = mainView;
+    // BEGIN: init ground
+    // Our built-in 'ground' shape.
+    const ground = CreateGround("ground", { width: 18, height: 18 }, scene);
 
-    const fpvCam = new UniversalCamera("FPV cam", new Vector3(0, 0, 0), scene);
-    this.cameras[CameraView.FPVCam] = fpvCam;
+    ground.material = bricks(scene);
 
-    // Skybox
-    let box = CreateBox(
-      "sky",
-      {
-        size: 1000,
-      },
-      scene
+    ground.physicsImpostor = new PhysicsImpostor(
+      ground,
+      PhysicsImpostor.BoxImpostor,
+      { mass: 0, restitution: 0.6 }
     );
-    const skyMaterial = new SkyMaterial("skyMaterial", scene);
-    skyMaterial.backFaceCulling = false;
-    box.material = skyMaterial;
-    // Manually set the sun position
-    skyMaterial.useSunPosition = true; // Do not set sun position from azimuth and inclination
-    skyMaterial.sunPosition = sunPosition;
+    // END: init ground
+
+    // BEGIN: init player
+    this.ball = Balltholemew.init(hdrTexture, scene);
+    this.hat = await Balltholemew.createHat(scene);
+    console.log(this.hat.rotation);
+    // END: init player
 
     // BEGIN: FPO
     if (fpo) {
+      // Move the sphere away from cam
+      //this.ball.position = new Vector3(0, 2.5, 8); // prod
+      //this.ball.position = new Vector3(0, 2.5, 0);
+      this.ball.position = new Vector3(0, Config.var.radius, 0);
+
+      this.ball.physicsImpostor.applyImpulse(
+        new Vector3(0.5, 0, 0.1),
+        Config.const.origin
+      );
+
       const sphereBottomLeft = CreateSphere(
         "sphere",
         { diameter: 2, segments: 32 },
@@ -155,86 +142,37 @@ export class Start {
     }
     // END: FPO
 
-    // BEGIN: init ground
-    // Our built-in 'ground' shape.
-    const ground = CreateGround("ground", { width: 18, height: 18 }, scene);
-
-    ground.material = bricks(scene);
-
-    ground.physicsImpostor = new PhysicsImpostor(
-      ground,
-      PhysicsImpostor.BoxImpostor,
-      { mass: 0, restitution: 0.6 }
-    );
-    // END: init ground
-
-    // BEGIN: init Balltholemew
-    // Our built-in 'sphere' shape.
-    const ball = CreateSphere(
-      "sphere",
-      { diameter: Config.vars.radius, segments: 32 }, // sic
-      scene
-    );
-    this.ball = ball;
-
-    ball.physicsImpostor = new PhysicsImpostor(
-      ball,
-      PhysicsImpostor.SphereImpostor,
-      { mass: Config.vars.mass, restitution: 0.8 },
-      scene
-    );
-
-    // Move the sphere away from cam
-    ball.position = new Vector3(0, 2.5, 8);
-    ball.physicsImpostor.applyImpulse(new Vector3(-0.5, 0, -1), this.origin);
-
-    // apply earth texture from https://forum.babylonjs.com/t/apply-texture-to-sphere-without-wide-seems/3432
-    /*
-    const earthMap = new StandardMaterial("earthMat", scene);
-    const earthTex = new Texture("../../assets/textures/earth.jpg", scene);
-    earthTex.vScale *= -1; // fix upside down PNG loading per https://github.com/BabylonJS/Babylon.js/issues/12545
-    earthMap.diffuseTexture = earthTex;
-    sphere.material = earthMap;
-    */
-    // make the sphere like a magnifying glass
-    // Main material
-    let glassesMaterial = new StandardMaterial("main", scene);
-    ball.material = glassesMaterial;
-
-    let refractionTexture = new RefractionTexture("th", 1024, scene);
-    refractionTexture.renderList.push(ground);
-    //refractionTexture.refractionPlane = new Plane(0, 0, -1, 0);
-    refractionTexture.refractionPlane = new Plane(0, 0, -9, 0);
-    refractionTexture.depth = 2.0;
-
-    //mainMaterial.diffuseColor = new Color3(1, 1, 1);
-    glassesMaterial.refractionTexture = refractionTexture;
-    glassesMaterial.indexOfRefraction = 0.4;
-
-    // robe
-
-    // and wizard hat
-    const importResult = await SceneLoader.ImportMeshAsync(
-      "",
-      "./assets/glb/",
-      "stylized_wizard_hat.glb",
-      scene,
-      undefined,
-      ".glb"
-    );
-
-    // END: init Balltholemew
+    // Skybox
+    // https://doc.babylonjs.com/features/featuresDeepDive/materials/using/masterPBR#refraction
+    var hdrSkybox = CreateBox("hdrSkyBox", { size: 1000.0 }, scene);
+    var hdrSkyboxMaterial = new PBRMaterial("skyBox", scene);
+    hdrSkyboxMaterial.backFaceCulling = false;
+    hdrSkyboxMaterial.reflectionTexture = hdrTexture.clone();
+    hdrSkyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+    hdrSkyboxMaterial.microSurface = 1.0;
+    hdrSkyboxMaterial.cameraExposure = 0.66;
+    hdrSkyboxMaterial.cameraContrast = 1.66;
+    hdrSkyboxMaterial.disableLighting = true;
+    hdrSkybox.material = hdrSkyboxMaterial;
+    hdrSkybox.infiniteDistance = true;
 
     // multi-view
+    /*
     if (scene.getEngine().getCaps().multiview) {
       console.log("multiview");
     }
+    */
 
+    // called before each render loop iteration
     scene.onBeforeRenderObservable.add(() => {
       this.handleBeforeRender();
     });
 
-    this.handleUiModeChange(scene);
+    // init UI
+    Cameras.handleUiModeChange(this.mode, this.cameras, scene, canvas);
+
+    // little push to straighten out
+    //this.ball.physicsImpostor.applyForce(new Vector3(-1, 0, 0), Config.origin);
   };
 }
 

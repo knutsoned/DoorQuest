@@ -4,7 +4,7 @@ import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 
 import { BrickProceduralTexture } from "@babylonjs/procedural-textures/brick/brickProceduralTexture";
 
-export function bricks(scene: Scene) {
+export function bricks(scene: Scene): StandardMaterial {
   let brickMaterial = new StandardMaterial("brickMat", scene);
   let brickTexture = new BrickProceduralTexture("brickTex", 512, scene);
   brickTexture.numberOfBricksHeight = 40;

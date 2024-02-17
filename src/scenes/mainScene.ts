@@ -6,6 +6,8 @@ import "@babylonjs/core/Physics/physicsEngineComponent";
 import Ammo from "ammojs-typed";
 import { CreateSceneClass } from "../createScene";
 
+import { Config } from "../config";
+
 import { Start } from "../game/start";
 
 // adapted from ../scenes/physicsWithAmmo.ts
@@ -44,7 +46,7 @@ export class MainScene implements CreateSceneClass {
     one for exporting a Godot ECMAScript mod, one for ts-defold...
     */
     const start = new Start();
-    await start.preparing(scene, canvas);
+    await start.preparing(scene, Config, canvas);
 
     return scene;
   };

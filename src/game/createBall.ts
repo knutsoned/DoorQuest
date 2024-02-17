@@ -1,4 +1,6 @@
 import { Scene } from "@babylonjs/core/scene";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
+import { AbstractMesh } from "@babylonjs/core/Meshes/abstractMesh";
 import { CreateSphere } from "@babylonjs/core/Meshes/Builders/sphereBuilder";
 import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
@@ -7,22 +9,25 @@ import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
 import { Color3 } from "@babylonjs/core/Maths/math.color";
 
 import "@babylonjs/loaders/glTF";
+import { IConfig } from "./types";
 
-import { Config } from "./config";
-
-export function init(refractionTexture: HDRCubeTexture, scene: Scene) {
+export function init(
+  refractionTexture: HDRCubeTexture,
+  scene: Scene,
+  config: IConfig
+): Mesh {
   // BEGIN: init Balltholemew
   // Our built-in 'sphere' shape.
   const ball = CreateSphere(
     "sphere",
-    { diameter: Config.var.radius * 2, segments: 32 },
+    { diameter: config.var.radius * 2, segments: 32 },
     scene
   );
 
   ball.physicsImpostor = new PhysicsImpostor(
     ball,
     PhysicsImpostor.SphereImpostor,
-    { mass: Config.var.mass, restitution: 0.8 },
+    { mass: config.var.mass, restitution: 0.9 },
     scene
   );
 
@@ -70,7 +75,7 @@ export function init(refractionTexture: HDRCubeTexture, scene: Scene) {
   return ball;
 }
 
-export async function createHat(scene: Scene) {
+export async function createHat(scene: Scene): Promise<AbstractMesh> {
   // and wizard hat
   const importResult = await SceneLoader.ImportMeshAsync(
     "",

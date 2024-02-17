@@ -19,6 +19,10 @@ export const uint8NZ = (value: number): UInt8NZ => {
   return value as UInt8NZ;
 };
 
+export type PRNG = {
+  random: () => number;
+};
+
 // declaring key constants for maps
 // trying to remember why you're not supposed to do this
 export enum UIMode {
@@ -43,6 +47,7 @@ export type UICameraMode = {
 };
 
 export interface IConfig {
+  prng: PRNG;
   var: {
     mass: UInt8NZ;
     radius: UInt8NZ;
@@ -53,8 +58,14 @@ export interface IConfig {
   };
 
   const: {
+    fpo: boolean;
     origin: Vector3;
     hatOffset: Vector3;
+    quarterTurn: number;
+    world: {
+      width: number;
+      height: number;
+    };
   };
 
   // UI flags

@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# vite rollup stats
+stats.html
+
 # itch.io file
 DoorQuest.zip

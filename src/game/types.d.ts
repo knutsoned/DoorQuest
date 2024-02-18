@@ -6,47 +6,35 @@ import { KeyboardEventKey } from "keyboard-event-key-type"; // seems like a good
 
 // restrict config values to 1..255, sounds pretty easy
 // um, ok https://stackoverflow.com/a/66085193
-export type UInt8NZ = number & { _type_: "UInt8NZ" };
-
-// create/check UInt8NZ values
-export const uint8NZ = (value: number): UInt8NZ => {
-  if (value < 1 || value > 255) {
-    throw new Error(
-      `The value ${value} is not a valid positive unsigned 8-bit integer`
-    );
-  }
-
-  return value as UInt8NZ;
+export type UInt8NZ = number & {
+  _type_: "UInt8NZ";
 };
 
+// create/check UInt8NZ values
+export declare const uint8NZ: (value: number) => UInt8NZ;
 export type PRNG = {
   random: () => number;
 };
 
 // declaring key constants for maps
 // trying to remember why you're not supposed to do this
-export enum UIMode {
-  TextOnly,
-  Also3D,
-  Sidebar,
-  Full3D,
+export declare enum UIMode {
+  TextOnly = 0,
+  Also3D = 1,
+  Sidebar = 2,
+  Full3D = 3,
 }
-
 export type CameraMap = {
   [view in CameraView]?: UniversalCamera;
 };
-
-export enum CameraView {
-  MainView,
-  FPVCam,
+export declare enum CameraView {
+  MainView = 0,
+  FPVCam = 1,
 }
-
 export type UICameraConfig = Viewport | false;
-
 export type UICameraMode = {
   [view in CameraView]?: UICameraConfig;
 };
-
 export interface IConfig {
   prng: {
     impl: PRNG;
@@ -61,7 +49,6 @@ export interface IConfig {
     friction: UInt8NZ;
     speed: UInt8NZ;
   };
-
   const: {
     fpo: boolean;
     origin: Vector3;

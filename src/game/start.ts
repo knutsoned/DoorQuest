@@ -53,7 +53,6 @@ export class Start {
 
     // @ts-ignore
     const soundOn = window.soundOn;
-    console.log(soundOn);
 
     if (soundOn) {
       // check for music

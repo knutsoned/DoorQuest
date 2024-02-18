@@ -7,7 +7,7 @@ export function init(config: IConfig): CameraMap {
   const cameraMap: CameraMap = {};
   //const mainView = new UniversalCamera("main view", new Vector3(0, 15, 16.1)); // Full3D
   //const mainView = new UniversalCamera("main view", new Vector3(0, 1, 8));
-  const mainView = new UniversalCamera("main view", new Vector3(0, 28, 15)); // Full3D
+  const mainView = new UniversalCamera("main view", new Vector3(0, 28, 14.9)); // Full3D
 
   // This targets the camera to scene origin
   mainView.setTarget(config.const.origin);

@@ -6,6 +6,8 @@ import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 
+import { celShade } from "./flotsam";
+
 export function createWall(brickIndex: number, scene: Scene, config: IConfig) {
   const random = config.prng.random;
   const shift = Math.ceil(random() * 4) - 2;
@@ -19,9 +21,6 @@ export function createWall(brickIndex: number, scene: Scene, config: IConfig) {
     },
     scene
   );
-  const boxMaterial = new StandardMaterial(
-    "brick" + brickIndex + " " + wallIndex
-  );
   const boxTexture = new Texture(
     "./assets/textures/brick" + brickIndex + ".jpg"
   );
@@ -29,7 +28,11 @@ export function createWall(brickIndex: number, scene: Scene, config: IConfig) {
   boxTexture.uOffset = 0;
   boxTexture.vScale = 0.45;
   boxTexture.vOffset = 0.5 * shift;
-  boxMaterial.diffuseTexture = boxTexture;
+  const boxMaterial = celShade(
+    "brick" + brickIndex + " " + wallIndex,
+    boxTexture,
+    scene
+  );
   box.material = boxMaterial;
   box.physicsImpostor = new PhysicsImpostor(box, PhysicsImpostor.BoxImpostor, {
     mass: 0,

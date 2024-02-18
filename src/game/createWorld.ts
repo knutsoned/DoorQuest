@@ -45,13 +45,14 @@ export function init(
   // BEGIN: init ground
   // Our built-in 'ground' shape.
   const worldSize = config.const.world.width;
+  const groundName = "ground";
   const ground = CreateGround(
-    "ground",
+    groundName,
     { width: worldSize, height: worldSize },
     scene
   );
 
-  ground.material = bricks(scene);
+  ground.material = bricks(groundName, scene);
 
   ground.physicsImpostor = new PhysicsImpostor(
     ground,

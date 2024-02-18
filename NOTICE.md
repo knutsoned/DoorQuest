@@ -18,4 +18,7 @@ Licensed under CC BY-SA 3.0
 Endless Acid Banger licensed under CC BY 4.0
 https://github.com/vitling/acid-banger
 
+Adventure font (c) 2020 Guywah licensed under OFL 1.1
+https://fontstruct.com/fontstructions/show/1753403/adventure-atari-2600
+
 This work is licensed under Mozilla Public License (MPL-2.0) except for the above which retain their original licenses. Remaining rights reserved.

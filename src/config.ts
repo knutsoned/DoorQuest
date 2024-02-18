@@ -100,6 +100,10 @@ export const Config: IConfig = {
         [CameraView.MainView]: FullViewport,
         [CameraView.FPVCam]: false,
       },
+      [UIMode.Sidebar]: {
+        [CameraView.MainView]: MainViewport,
+        [CameraView.FPVCam]: false,
+      },
     },
   },
 };

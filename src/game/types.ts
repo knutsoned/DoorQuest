@@ -28,6 +28,7 @@ export type PRNG = {
 export enum UIMode {
   TextOnly,
   Also3D,
+  Sidebar,
   Full3D,
 }
 

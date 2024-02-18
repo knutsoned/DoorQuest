@@ -24,11 +24,37 @@
         height: 100%;
         touch-action: none;
       }
+      @font-face {
+        font-family: "Adventure (Atari 2600)";
+        src: url("./assets/fonts/AdventureAtari2600.woff2") format("woff2"),
+          url("./assets/fonts/AdventureAtari2600.woff") format("woff");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      #main-top-wrapper {
+        width: 100%;
+        height: 100%;
+      }
+
+      #sidebar {
+        background: white;
+        position: absolute;
+        left: 56%;
+        top: 0;
+        width: 44%;
+        height: 100%;
+      }
     </style>
   </head>
 
   <body>
-    <canvas id="renderCanvas" touch-action="none"></canvas>
-    <script type="module" src="/src/index.ts"></script>
+    <div id="main-top-wrapper">
+      <canvas id="renderCanvas" touch-action="none"></canvas>
+      <script type="module" src="/src/index.ts"></script>
+
+      <div id="sidebar"></div>
+    </div>
   </body>
 </html>

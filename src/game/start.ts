@@ -4,7 +4,7 @@ import { Scene } from "@babylonjs/core/scene";
 import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { HDRCubeTexture } from "@babylonjs/core/Materials/Textures/hdrCubeTexture";
 
-import { start as AcidBanger } from "../acid-banger/app";
+import { AcidBanger } from "../acid-banger/app";
 
 import { CameraMap, CameraView, IConfig, UIMode } from "./types";
 import { createFPOs } from "./fpo";
@@ -13,14 +13,18 @@ import * as Cameras from "./createCameras";
 import * as Balltholemew from "./createBall";
 
 export class Start {
-  ball: Mesh;
-  wizardHat: AbstractMesh;
-  cameras: CameraMap = {};
-
+  banger?: AcidBanger;
   config: IConfig;
 
-  //mode: UIMode = UIMode.Also3D;
-  mode: UIMode = UIMode.Full3D;
+  mode: UIMode = UIMode.Sidebar;
+  //mode: UIMode = UIMode.Full3D;
+
+  // cameras
+  cameras: CameraMap = {};
+
+  // meshes
+  ball: Mesh;
+  wizardHat: AbstractMesh;
 
   // requestAnimationFrame
   handleBeforeRender(): void {
@@ -90,9 +94,9 @@ export class Start {
     // little push to straighten out
     //this.ball.physicsImpostor.applyForce(new Vector3(-1, 0, 0), Config.origin);
 
-    // ACID INTENSIFIES
-    AcidBanger();
-    console.log("AcidBanger");
+    console.log("AcidBanger init");
+
+    // register controls
   };
 }
 

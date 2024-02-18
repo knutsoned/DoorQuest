@@ -255,43 +255,55 @@ function ClockUnit(): ClockUnit {
   };
 }
 
-export async function start() {
-  const audio = Audio();
-  const clock = ClockUnit();
-  const delay = DelayUnit(audio);
-  clock.bpm.subscribe((b) => (delay.delayTime.value = (3 / 4) * (60 / b)));
+// Ed. note: to use the engine in another project
+export class AcidBanger {
+  audio: AudioT;
+  clock: ClockUnit;
+  delay: DelayUnit;
 
-  const gen = ThreeOhGen();
-  const programState: ProgramState = {
-    notes: [
-      ThreeOhUnit(audio, "sawtooth", delay.inputNode, gen),
-      ThreeOhUnit(audio, "square", delay.inputNode, gen),
-    ],
-    drums: await NineOhUnit(audio),
-    gen,
-    delay,
-    clock,
-    masterVolume: parameter("Volume", [0, 1], 0.5),
-  };
+  constructor() {
+    this.audio = Audio();
+    this.clock = ClockUnit();
+    this.delay = DelayUnit(this.audio);
+  }
+  async start() {
+    const app = this;
+    this.clock.bpm.subscribe(
+      (b) => (app.delay.delayTime.value = (3 / 4) * (60 / b))
+    );
 
-  programState.masterVolume.subscribe((newVolume) => {
-    audio.master.in.gain.value = newVolume;
-  });
+    const gen = ThreeOhGen();
+    const programState: ProgramState = {
+      notes: [
+        ThreeOhUnit(app.audio, "sawtooth", this.delay.inputNode, gen),
+        ThreeOhUnit(app.audio, "square", this.delay.inputNode, gen),
+      ],
+      drums: await NineOhUnit(this.audio),
+      gen,
+      delay: app.delay,
+      clock: app.clock,
+      masterVolume: parameter("Volume", [0, 1], 0.5),
+    };
 
-  clock.currentStep.subscribe((step) =>
-    [...programState.notes, programState.drums].forEach((d) => d.step(step))
+    programState.masterVolume.subscribe((newVolume) => {
+      app.audio.master.in.gain.value = newVolume;
+    });
+
+    this.clock.currentStep.subscribe((step) =>
+      [...programState.notes, programState.drums].forEach((d) => d.step(step))
+    );
+    const autoPilot = AutoPilot(programState);
+    /*
+      const ui = UI(programState, autoPilot, audio.master.analyser);
+      document.body.append(ui);
+      */
+  }
+
+  /* Ed. note: replacing this with a call from ../game/start
+  pressToStart(
+    start,
+    "The Endless Acid Banger",
+    "A collaboration between human and algorithm by Vitling"
   );
-  const autoPilot = AutoPilot(programState);
-  /*
-    const ui = UI(programState, autoPilot, audio.master.analyser);
-    document.body.append(ui);
-    */
+  */
 }
-
-/* Ed. note: replacing this with a call from ../game/start
-pressToStart(
-  start,
-  "The Endless Acid Banger",
-  "A collaboration between human and algorithm by Vitling"
-);
-*/

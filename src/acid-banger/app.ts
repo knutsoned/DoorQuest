@@ -260,6 +260,7 @@ export class AcidBanger {
   audio: AudioT;
   clock: ClockUnit;
   delay: DelayUnit;
+  programState: ProgramState;
 
   constructor() {
     this.audio = Audio();
@@ -268,15 +269,12 @@ export class AcidBanger {
   }
   async start() {
     const app = this;
-    this.clock.bpm.subscribe(
-      (b) => (app.delay.delayTime.value = (3 / 4) * (60 / b))
-    );
-
     const gen = ThreeOhGen();
-    const programState: ProgramState = {
+
+    this.programState = {
       notes: [
-        ThreeOhUnit(app.audio, "sawtooth", this.delay.inputNode, gen),
-        ThreeOhUnit(app.audio, "square", this.delay.inputNode, gen),
+        ThreeOhUnit(this.audio, "sawtooth", this.delay.inputNode, gen),
+        ThreeOhUnit(this.audio, "square", this.delay.inputNode, gen),
       ],
       drums: await NineOhUnit(this.audio),
       gen,
@@ -284,15 +282,20 @@ export class AcidBanger {
       clock: app.clock,
       masterVolume: parameter("Volume", [0, 1], 0.5),
     };
+    this.clock.bpm.subscribe(
+      (b) => (app.delay.delayTime.value = (3 / 4) * (60 / b))
+    );
 
-    programState.masterVolume.subscribe((newVolume) => {
+    this.programState.masterVolume.subscribe((newVolume) => {
       app.audio.master.in.gain.value = newVolume;
     });
 
     this.clock.currentStep.subscribe((step) =>
-      [...programState.notes, programState.drums].forEach((d) => d.step(step))
+      [...this.programState.notes, this.programState.drums].forEach((d) =>
+        d.step(step)
+      )
     );
-    const autoPilot = AutoPilot(programState);
+    const autoPilot = AutoPilot(this.programState);
     /*
       const ui = UI(programState, autoPilot, audio.master.analyser);
       document.body.append(ui);

@@ -50,13 +50,40 @@ export class Start {
 
     // apply force to left
     //ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), Config.origin);
+
+    // @ts-ignore
+    const soundOn = window.soundOn;
+    console.log(soundOn);
+
+    if (soundOn) {
+      // check for music
+      if (this.banger) {
+        if (this.banger.programState) {
+          this.banger.programState.masterVolume.value = 1;
+        }
+      } else {
+        // turn it up
+        console.log("AcidBanger intensifies");
+        this.banger = new AcidBanger();
+        this.banger.start();
+      }
+    } else {
+      // check for music
+      if (this.banger) {
+        // lol, how do you turn it off?
+        //this.banger = undefined;
+        if (this.banger.programState) {
+          this.banger.programState.masterVolume.value = 0;
+        }
+      }
+    }
   }
 
-  preparing = async (
+  async preparing(
     scene: Scene,
     config: IConfig,
     canvas: HTMLCanvasElement
-  ): Promise<void> => {
+  ): Promise<void> {
     this.config = config;
 
     // skybox texture
@@ -94,10 +121,8 @@ export class Start {
     // little push to straighten out
     //this.ball.physicsImpostor.applyForce(new Vector3(-1, 0, 0), Config.origin);
 
-    console.log("AcidBanger init");
-
     // register controls
-  };
+  }
 }
 
 export default new Start();

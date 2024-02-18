@@ -18,7 +18,7 @@ export function init(
   config: IConfig
 ) {
   //const sunPosition = new Vector(0, 20, 0);
-  const sunPosition = new Vector3(0, 20, 2);
+  const sunPosition = new Vector3(0, 20, 15);
   const sun = new PointLight("sun", sunPosition, scene);
   sun.intensity = 0.9;
 
@@ -26,7 +26,7 @@ export function init(
   const light = new HemisphericLight("light", sunPosition, scene);
 
   // Default intensity is 1. Let's dim the light a small amount
-  light.intensity = 0.7;
+  light.intensity = 0.8;
 
   // Skybox
   // https://doc.babylonjs.com/features/featuresDeepDive/materials/using/masterPBR#refraction

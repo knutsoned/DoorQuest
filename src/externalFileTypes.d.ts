@@ -14,3 +14,7 @@ declare module "ammo.js";
 
 // MP3
 declare module "*.mp3";
+
+// webfonts
+declare module "*.woff";
+declare module "*.woff2";

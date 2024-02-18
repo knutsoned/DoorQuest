@@ -11,14 +11,23 @@ export type UInt8NZ = number & {
 };
 
 // create/check UInt8NZ values
-export declare const uint8NZ: (value: number) => UInt8NZ;
+export const uint8NZ = (value: number): UInt8NZ => {
+  if (value < 1 || value > 255) {
+    throw new Error(
+      `The value ${value} is not a valid positive unsigned 8-bit integer`
+    );
+  }
+
+  return value as UInt8NZ;
+};
+
 export type PRNG = {
   random: () => number;
 };
 
 // declaring key constants for maps
 // trying to remember why you're not supposed to do this
-export declare enum UIMode {
+export enum UIMode {
   TextOnly = 0,
   Also3D = 1,
   Sidebar = 2,
@@ -27,7 +36,7 @@ export declare enum UIMode {
 export type CameraMap = {
   [view in CameraView]?: UniversalCamera;
 };
-export declare enum CameraView {
+export enum CameraView {
   MainView = 0,
   FPVCam = 1,
 }

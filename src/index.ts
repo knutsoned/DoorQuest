@@ -4,6 +4,8 @@ import { getSceneModule } from "./createScene";
 
 import "nes.css/css/nes.min.css";
 
+import "../style.scss";
+
 export const babylonInit = async (): Promise<void> => {
   const createSceneModule = getSceneModule();
   const engineType =
@@ -40,6 +42,7 @@ export const babylonInit = async (): Promise<void> => {
 
   // Register a render loop to repeatedly render the scene
   engine.runRenderLoop(async function () {
+    /*
     // @ts-ignore
     if (window.gameOver) {
       // @ts-ignore
@@ -49,6 +52,7 @@ export const babylonInit = async (): Promise<void> => {
       scene.dispose();
       scene = await createSceneModule.createScene(engine, canvas);
     }
+    */
     scene.render();
   });
 

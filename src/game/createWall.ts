@@ -4,7 +4,6 @@ import { Scene } from "@babylonjs/core/scene";
 import { IConfig } from "./types";
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
-import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 
 import { celShade } from "./flotsam";
 

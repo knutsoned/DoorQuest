@@ -7,8 +7,10 @@ import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
 import { HDRCubeTexture } from "@babylonjs/core/Materials/Textures/hdrCubeTexture";
 import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
 import { Color3 } from "@babylonjs/core/Maths/math.color";
+import { Vector3 } from "@babylonjs/core/Maths/math";
 
 import "@babylonjs/loaders/glTF";
+
 import { IConfig } from "./types";
 
 export function init(
@@ -23,6 +25,7 @@ export function init(
     { diameter: config.var.radius * 2, segments: 32 },
     scene
   );
+  ball.position = new Vector3(-2, config.var.radius, 9);
 
   ball.physicsImpostor = new PhysicsImpostor(
     ball,

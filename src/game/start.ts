@@ -55,6 +55,8 @@ export class Start {
     // @ts-ignore
     const musicOn = window.musicOn;
 
+    // FIXME check for A & D button clicks from HTML
+
     if (musicOn) {
       // check for music
       if (this.banger) {
@@ -63,7 +65,7 @@ export class Start {
         }
       } else {
         // turn it up
-        console.log("AcidBanger intensifies");
+        //console.log("AcidBanger intensifies");
         this.banger = new AcidBanger();
         this.banger.start();
       }

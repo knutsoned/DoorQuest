@@ -96,6 +96,10 @@
         text-align: left;
       }
 
+      #logo {
+        text-align: right;
+      }
+
       #main-top-wrapper {
         position: relative;
         width: 100%;
@@ -125,6 +129,13 @@
         margin: 1rem 0;
       }
 
+      #sidebar button.key {
+        width: 3rem;
+        height: 3.5rem;
+        padding: 1rem;
+        margin: 0 2rem;
+      }
+
       #sidebar h1,
       #sidebar h2,
       #sidebar p {
@@ -145,7 +156,7 @@
         <h1>Door Quest</h1>
         <div id="audio">
           <button id="musicBtn" onclick="toggleMusicOn()">Music On (M)</button>
-          <button id="soundBtn" onclick="toggleSoundOn()">SFX On (S)</button>
+          <!--<button id="soundBtn" onclick="toggleSoundOn()">SFX On (S)</button>-->
           <p>Click the game canvas if controls don't work</p>
           <h2>Controls</h2>
           <div class="row">
@@ -155,8 +166,18 @@
             </div>
             <div class="right column">
               <p>Boss Key: B</p>
-              <p>SoffiTech</p>
+              <p>Reset: R</p>
             </div>
+          </div>
+          <div class="row">
+            <div class="column">
+              <button id="aKey" class="key" onclick="press('a')">A</button>
+              <button id="dKey" class="key" onclick="press('d')">D</button>
+            </div>
+            <div class="right column">
+              <br />
+              <br />
+              <h3 id="logo">SoffiTech</h3>
           </div>
         </div>
       </nav>
@@ -173,9 +194,12 @@
       const musicBtn = document.getElementById("musicBtn");
       const soundBtn = document.getElementById("soundBtn");
       window.boss = false;
+      window.gameOver = false;
+      window.loading = true;
       window.musicOn = false;
       window.soundOn = false;
-      window.loading = true;
+      window.pressedA = false;
+      window.pressedD = false;
 
       function hideBoss() {
         window.boss = false;
@@ -187,6 +211,17 @@
         boss.style.display = "block";
       }
 
+      function press(key) {
+        switch (key) {
+          case "a":
+            window.pressedA = true;
+            break;
+          case "d":
+            window.pressedD = true;
+            break;
+        }
+      }
+
       document.onkeypress = function (e) {
         e = e || window.event;
         if (window.boss) {
@@ -195,9 +230,12 @@
           return;
         }
         switch (e.key) {
-          case "b":
+          case "b": // boss key
             showBoss();
             e.preventDefault();
+            break;
+          case "r": // reset
+            window.gameOver = true;
             break;
         }
       };

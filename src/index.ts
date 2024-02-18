@@ -33,13 +33,22 @@ export const babylonInit = async (): Promise<void> => {
   }
 
   // Create the scene
-  const scene = await createSceneModule.createScene(engine, canvas);
+  let scene = await createSceneModule.createScene(engine, canvas);
 
   // JUST FOR TESTING. Not needed for anything else
   //(window as any).scene = scene;
 
   // Register a render loop to repeatedly render the scene
-  engine.runRenderLoop(function () {
+  engine.runRenderLoop(async function () {
+    // @ts-ignore
+    if (window.gameOver) {
+      // @ts-ignore
+      window.gameOver = false;
+
+      // Ed. note: this feels like the wrong way to do this
+      scene.dispose();
+      scene = await createSceneModule.createScene(engine, canvas);
+    }
     scene.render();
   });
 

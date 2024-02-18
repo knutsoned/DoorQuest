@@ -23,10 +23,10 @@ export function bricks(name: string, scene: Scene): Material {
   const textureName = name + " brickTex";
   let brickTexture = new BrickProceduralTexture(textureName, 512, scene);
   //brickTexture.numberOfBricksHeight = 40;
-  brickTexture.numberOfBricksHeight = 10;
+  brickTexture.numberOfBricksHeight = 5;
   brickTexture.brickColor = new Color3(0.32, 0.32, 0.323);
   //brickTexture.numberOfBricksWidth = 10;
-  brickTexture.numberOfBricksWidth = 5;
+  brickTexture.numberOfBricksWidth = 3;
 
   /*
   brickMaterial.diffuseTexture = brickTexture;

@@ -54,7 +54,7 @@ export const Config: IConfig = {
   },
 
   const: {
-    fpo: true,
+    fpo: false,
     origin: Vector3.ZeroReadOnly,
     quarterTurn: 1.5708,
     //hatOffset: new Vector3(0, -2.5, -0.5),

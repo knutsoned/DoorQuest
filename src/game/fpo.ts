@@ -14,7 +14,6 @@ export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
   // Move the sphere away from cam
   //this.ball.position = new Vector3(0, 2.5, 8); // prod
   //this.ball.position = new Vector3(0, 2.5, 0);
-  ball.position = new Vector3(0, config.var.radius, 0);
 
   const movement = () => {
     const base = random() * moveScale + moveMin;

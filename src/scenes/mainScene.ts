@@ -10,6 +10,7 @@ import { CreateSceneClass } from "../createScene";
 import { Config } from "../config";
 
 import { Start } from "../game/start";
+import { init as createCameras } from "../game/createCameras";
 //import HavokPhysics from "@babylonjs/havok";
 //import { HavokPlugin } from "@babylonjs/core/Physics/v2";
 //import { OimoJSPlugin } from "@babylonjs/core/Physics/Plugins/oimoJSPlugin";
@@ -60,7 +61,7 @@ export class MainScene implements CreateSceneClass {
     one for exporting a Godot ECMAScript mod, one for ts-defold...
     */
     const start = new Start();
-    await start.preparing(scene, Config, canvas);
+    await start.preparing(scene, Config, createCameras(Config), canvas);
 
     return scene;
   };

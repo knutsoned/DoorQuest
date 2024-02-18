@@ -7,6 +7,7 @@ import { HDRCubeTexture } from "@babylonjs/core/Materials/Textures/hdrCubeTextur
 import { AcidBanger } from "../acid-banger/app";
 
 import { CameraMap, CameraView, IConfig, UIMode } from "./types";
+import { createBoard } from "./createBoard";
 import { createFPOs } from "./fpo";
 import * as World from "./createWorld";
 import * as Cameras from "./createCameras";
@@ -84,6 +85,7 @@ export class Start {
   async preparing(
     scene: Scene,
     config: IConfig,
+    cameras: CameraMap,
     canvas: HTMLCanvasElement
   ): Promise<void> {
     this.config = config;
@@ -99,7 +101,7 @@ export class Start {
 
     // cameras
     // This creates and positions a free camera (non-mesh)
-    this.cameras = Cameras.init(config);
+    this.cameras = cameras;
 
     // BEGIN: init player
     this.ball = Balltholemew.init(hdrTexture, scene, config);
@@ -111,6 +113,10 @@ export class Start {
       createFPOs(this.ball, scene, config);
     }
     // END: FPO
+
+    // BEGIN: init board
+    createBoard(scene, config);
+    // END: init board
 
     // called before each render loop iteration
     scene.onBeforeRenderObservable.add(() => {

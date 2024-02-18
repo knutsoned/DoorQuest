@@ -11,6 +11,7 @@ import { createFPOs } from "./fpo";
 import * as World from "./createWorld";
 import * as Cameras from "./createCameras";
 import * as Balltholemew from "./createBall";
+import { KeyboardEventTypes } from "@babylonjs/core/Events/keyboardEvents";
 
 export class Start {
   banger?: AcidBanger;
@@ -52,9 +53,9 @@ export class Start {
     //ball.physicsImpostor.applyForce(new Vector3(-0.1, 0, 0), Config.origin);
 
     // @ts-ignore
-    const soundOn = window.soundOn;
+    const musicOn = window.musicOn;
 
-    if (soundOn) {
+    if (musicOn) {
       // check for music
       if (this.banger) {
         if (this.banger.programState) {
@@ -120,7 +121,31 @@ export class Start {
     // little push to straighten out
     //this.ball.physicsImpostor.applyForce(new Vector3(-1, 0, 0), Config.origin);
 
-    // register controls
+    scene.executeWhenReady(() => {
+      // @ts-ignore
+      window.hideLoading();
+
+      // register controls
+      scene.onKeyboardObservable.add((kbInfo) => {
+        switch (kbInfo.type) {
+          case KeyboardEventTypes.KEYDOWN:
+            //console.log("KEY DOWN: ", kbInfo.event.key);
+            break;
+          case KeyboardEventTypes.KEYUP:
+            switch (kbInfo.event.key) {
+              case "m":
+                // @ts-ignoremm
+                window.toggleMusicOn();
+                break;
+              case "s":
+                // @ts-ignoremm
+                window.toggleSoundOn();
+                break;
+            }
+            break;
+        }
+      });
+    });
   }
 }
 

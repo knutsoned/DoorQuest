@@ -2,6 +2,8 @@ import { Engine } from "@babylonjs/core/Engines/engine";
 import { WebGPUEngine } from "@babylonjs/core/Engines/webgpuEngine";
 import { getSceneModule } from "./createScene";
 
+import "nes.css/css/nes.min.css";
+
 export const babylonInit = async (): Promise<void> => {
   const createSceneModule = getSceneModule();
   const engineType =

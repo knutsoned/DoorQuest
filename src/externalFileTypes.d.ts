@@ -10,6 +10,7 @@ declare module "*.stl";
 
 // Physics
 declare module "ammo.js";
+//declare module "*.wasm";
 
 // MP3
 declare module "*.mp3";

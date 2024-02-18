@@ -9,7 +9,7 @@
     <title>Door Quest</title>
     <meta name="description" content="An endless opener" />
     <meta name="author" content="Ed Knutson" />
-    <style>
+    <style type="text/css">
       @font-face {
         font-family: "Adventure";
         src: url("./assets/fonts/AdventureAtari2600.woff2") format("woff2"),
@@ -31,24 +31,63 @@
 
       html,
       body,
-      button {
+      pre,
+      code,
+      kbd,
+      samp,
+      #main-top-wrapper {
         font-family: "Adventure";
       }
 
-      button {
-        padding: 3%;
-        font-size: 1.1rem;
+      h1 {
+        text-align: center;
+      }
+
+      .right {
+        flex-grow: 1;
+        text-align: right;
+      }
+
+      .right p {
+        display: block;
+        width: 100%;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      #loading {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #333;
+        opacity: 0.7;
+      }
+
+      #loading h1 {
+        color: #111;
+        font-size: 4rem;
+        position: absolute;
+        width: 80%;
+        left: 60%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: left;
+      }
+
+      #main-top-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
       }
 
       #renderCanvas {
         width: 100%;
-        height: 100%;
+        height: auto; /*100%;*/
         touch-action: none;
-      }
-
-      #main-top-wrapper {
-        width: 100%;
-        height: 100%;
       }
 
       #sidebar {
@@ -56,9 +95,26 @@
         position: absolute;
         left: 56%;
         top: 0;
-        width: 40%;
-        height: 92%;
+        width: 44%;
+        height: 100%;
         padding: 2%;
+      }
+
+      #sidebar button {
+        padding: 3%;
+        font-size: 1.1rem;
+        width: 100%;
+        margin: 1rem 0;
+      }
+
+      #sidebar h1,
+      #sidebar h2,
+      #sidebar p {
+        margin-top: 1rem;
+      }
+
+      #sidebar li {
+        list-style-type: none;
       }
     </style>
   </head>
@@ -70,17 +126,65 @@
       <nav id="sidebar">
         <h1>Door Quest</h1>
         <div id="audio">
-          <button id="soundBtn" onclick="toggleSoundOn()">Music On</button>
+          <button id="musicBtn" onclick="toggleMusicOn()">Music On (M)</button>
+          <button id="soundBtn" onclick="toggleSoundOn()">SFX On (S)</button>
+          <p>Click the game canvas if controls don't work</p>
+          <h2>Controls</h2>
+          <div class="row">
+            <div class="column">
+              <p>Left Flipper: A</p>
+              <p>Right Flipper: D</p>
+            </div>
+            <div class="right column"><p>Boss Key: B</p></div>
+          </div>
         </div>
       </nav>
+      <div id="loading">
+        <h1>Loading <span id="ellipsis"></span></h1>
+      </div>
     </div>
     <script>
+      const ellipsis = document.getElementById("ellipsis");
+      const musicBtn = document.getElementById("musicBtn");
       const soundBtn = document.getElementById("soundBtn");
+      window.musicOn = false;
       window.soundOn = false;
+      window.loading = true;
+
+      function toggleMusicOn() {
+        console.log("toggle music");
+        window.musicOn = !window.musicOn;
+        musicBtn.innerText =
+          "Music " + (window.musicOn ? "Mute" : "On") + " (M)";
+      }
 
       function toggleSoundOn() {
+        console.log("toggle sound");
         window.soundOn = !window.soundOn;
-        soundBtn.innerText = window.soundOn ? "Mute" : "Music On";
+        soundBtn.innerText = "SFX " + (window.soundOn ? "Mute" : "On") + " (S)";
+      }
+
+      let ellipsisLength = 0;
+      function loadingEllipsis() {
+        console.log("loading");
+        if (loading) {
+          let periods = "";
+          if (++ellipsisLength > 3) {
+            ellipsisLength = 0;
+          }
+          for (let i = 0; i < ellipsisLength; i++) {
+            periods += ". ";
+          }
+          ellipsis.innerText = periods;
+          setTimeout(loadingEllipsis, 140);
+        }
+      }
+      loadingEllipsis();
+
+      function hideLoading() {
+        console.log("loaded");
+        window.loading = false;
+        document.getElementById("loading").style.display = "none";
       }
     </script>
   </body>

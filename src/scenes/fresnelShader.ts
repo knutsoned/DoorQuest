@@ -97,7 +97,7 @@ export class FresnelShaderScene implements CreateSceneClass {
 
     // Load a texture to be used as the ground material
 
-    ground.material = bricks(scene);
+    ground.material = bricks("ground", scene);
     ground.receiveShadows = true;
 
     const light = new DirectionalLight("light", new Vector3(0, -1, 1), scene);

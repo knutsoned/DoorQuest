@@ -5,13 +5,13 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { HemisphericLight } from "@babylonjs/core/Lights/hemisphericLight";
 import { CreateSphere } from "@babylonjs/core/Meshes/Builders/sphereBuilder";
 import { CreateGround } from "@babylonjs/core/Meshes/Builders/groundBuilder";
-import { AmmoJSPlugin } from "@babylonjs/core/Physics/Plugins/ammoJSPlugin";
+//import { AmmoJSPlugin } from "@babylonjs/core/Physics/Plugins/ammoJSPlugin";
 import "@babylonjs/core/Physics/physicsEngineComponent";
 
 // If you don't need the standard material you will still need to import it since the scene requires it.
 import "@babylonjs/core/Materials/standardMaterial";
 import { PhysicsImpostor } from "@babylonjs/core/Physics/physicsImpostor";
-import Ammo from "ammojs-typed";
+//import Ammo from "ammojs-typed";
 import { CreateSceneClass } from "../createScene";
 
 import { bricks } from "../game/flotsam";
@@ -27,8 +27,8 @@ export class PhysicsSceneWithAmmo implements CreateSceneClass {
 
     // with webpack, just do Ammo() but with vite, it's Ammo.call(this)
     // https://forum.babylonjs.com/t/using-ammojs-with-babylon/26413/8
-    const ammo = await Ammo.call(this);
-    scene.enablePhysics(null, new AmmoJSPlugin(true, ammo));
+    //    const ammo = await Ammo.call(this);
+    //scene.enablePhysics(null, new AmmoJSPlugin(true, ammo));
 
     // This creates and positions a free camera (non-mesh)
     const camera = new ArcRotateCamera(
@@ -67,7 +67,7 @@ export class PhysicsSceneWithAmmo implements CreateSceneClass {
 
     // Our built-in 'ground' shape.
     const ground = CreateGround("ground", { width: 6, height: 6 }, scene);
-    ground.material = bricks(scene);
+    ground.material = bricks("ground", scene);
 
     ground.physicsImpostor = new PhysicsImpostor(
       ground,

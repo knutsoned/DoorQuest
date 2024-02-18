@@ -33,8 +33,12 @@ export class MainScene implements CreateSceneClass {
 
     I just think it's super funny to take Bullet and transpile it to WASM
 
-    we really should be working on a Web Arcade Cabinet if we're going to be
-    supporting assembly language
+    (we really should be working on a Web Arcade Cabinet if we're going to be
+    supporting assembly language)
+
+    seriously, should this go further up the chain? is there a way to empty out
+    the physics engine? seems like a lot of work to make a new physics engine for
+    each scene
     */
     const ammo = await Ammo.call(this);
     scene.enablePhysics(null, new AmmoJSPlugin(true, ammo));

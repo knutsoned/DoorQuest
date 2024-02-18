@@ -30,6 +30,16 @@ export class Start {
 
   // requestAnimationFrame
   handleBeforeRender(): void {
+    /*
+    // @ts-ignore
+    if (window.gameOver) {
+      // @ts-ignore
+      window.gameOver = false;
+      this.again();
+      return;
+    }
+    */
+
     const ball = this.ball;
     const ballPos = ball.position;
     const fpvCam = this.cameras[CameraView.FPVCam];

@@ -1,0 +1,20 @@
+{
+  "name": "door-quest-electron",
+  "productName": "Door Quest",
+  "version": "1.0.0",
+  "description": "An endless opener",
+  "main": "main.js",
+  "author": "Ed Knutson",
+  "license": "MPL-2.0",
+  "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --windows portable:x64"
+  },
+  "devDependencies": {
+    "electron": "^28.2.1",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "icon": "android-chrome-512x512.png"
+  }
+}

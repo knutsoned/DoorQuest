@@ -346,9 +346,7 @@ export function Audio(
   }
 
   async function Sampler(file: string) {
-    const sampleBuffer = await loadBuffer(
-      "./assets/sounds/acid-banger/" + file
-    );
+    const sampleBuffer = await loadBuffer("./assets/sounds/mars/" + file);
     function play(
       gain: number = 0.4,
       decay: number = 1.0,

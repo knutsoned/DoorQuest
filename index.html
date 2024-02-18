@@ -32,8 +32,8 @@
               -->
             </div>
             <div class="right column">
-              <p>Boss Key: B</p>
-              <p>Reset: R</p>
+              <button id="bKey" class="key" onclick="press('b')">Boss Key: B</button>
+              <button id="rKey" class="key" onclick="press('r')">Reset: R</button>
             </div>
           </div>
           <div class="row">
@@ -88,6 +88,12 @@
           case "d":
             window.pressedD = true;
             break;
+            case "b": // boss key
+            showBoss();
+            break;
+          case "r": // reset
+            window.gameOver = true;
+            break;
         }
       }
 
@@ -99,13 +105,11 @@
           return;
         }
         switch (e.key) {
-          case "b": // boss key
-            showBoss();
+          case 'b':
             e.preventDefault();
-            break;
-          case "r": // reset
-            window.gameOver = true;
-            break;
+          case 'r':
+            press(e.key);
+          break
         }
       };
 

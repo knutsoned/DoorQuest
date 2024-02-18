@@ -10,5 +10,4 @@ An endless opener
 
 Copyright (c) 2024 Ed Knutson
 
-This work is licensed under Mozilla Public License (MPL-2.0) except for the projects credited in the [notice](NOTICE.md) which retain their original licenses. Remaining rights reserved.
-
+This work is licensed under Mozilla Public License (MPL-2.0) except for the projects credited in the [notice](NOTICE) which retain their original licenses. Remaining rights reserved.

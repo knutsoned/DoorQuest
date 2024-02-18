@@ -31,16 +31,24 @@
 
       html,
       body,
-      pre,
-      code,
-      kbd,
-      samp,
+      #main-top-wrapper pre,
+      #main-top-wrapper code,
+      #main-top-wrapper kbd,
+      #main-top-wrapper samp,
       #main-top-wrapper {
         font-family: "Adventure";
       }
 
       h1 {
         text-align: center;
+      }
+
+      .full {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
       }
 
       .right {
@@ -57,12 +65,22 @@
         display: flex;
       }
 
+      #boss {
+        background: url("./assets/textures/kisscc0-sky-sunset-cloud-sunrise-cumulus-nature.jpg");
+        background-size: cover;
+        display: none;
+      }
+
+      #windoze {
+        background: url("./assets/textures/Spreadsheet_Dos_Navigator.jpg");
+        background-size: contain;
+        width: 80%;
+        height: 80%;
+        margin: 5%;
+        background-repeat: no-repeat;
+      }
+
       #loading {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
         background: #333;
         opacity: 0.7;
       }
@@ -135,21 +153,54 @@
               <p>Left Flipper: A</p>
               <p>Right Flipper: D</p>
             </div>
-            <div class="right column"><p>Boss Key: B</p></div>
+            <div class="right column">
+              <p>Boss Key: B</p>
+              <p>SoffiTech</p>
+            </div>
           </div>
         </div>
       </nav>
-      <div id="loading">
+      <div id="boss" class="full" onclick="hideBoss()">
+        <div id="windoze"></div>
+      </div>
+      <div id="loading" class="full">
         <h1>Loading <span id="ellipsis"></span></h1>
       </div>
     </div>
     <script>
+      const boss = document.getElementById("boss");
       const ellipsis = document.getElementById("ellipsis");
       const musicBtn = document.getElementById("musicBtn");
       const soundBtn = document.getElementById("soundBtn");
+      window.boss = false;
       window.musicOn = false;
       window.soundOn = false;
       window.loading = true;
+
+      function hideBoss() {
+        window.boss = false;
+        boss.style.display = "none";
+      }
+
+      function showBoss() {
+        window.boss = true;
+        boss.style.display = "block";
+      }
+
+      document.onkeypress = function (e) {
+        e = e || window.event;
+        if (window.boss) {
+          hideBoss();
+          e.preventDefault();
+          return;
+        }
+        switch (e.key) {
+          case "b":
+            showBoss();
+            e.preventDefault();
+            break;
+        }
+      };
 
       function toggleMusicOn() {
         console.log("toggle music");

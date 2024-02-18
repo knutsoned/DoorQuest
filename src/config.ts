@@ -5,7 +5,7 @@ import {
   IConfig,
   UIMode,
   uint8NZ,
-} from "./game/types";
+} from "./game";
 
 import { mkAlea } from "@spissvinkel/alea";
 

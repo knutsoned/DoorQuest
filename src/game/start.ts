@@ -8,12 +8,12 @@ import { AcidBanger } from "../acid-banger/app";
 
 import { CameraMap, CameraView, IConfig, UIMode } from "./types";
 import { createBoard } from "./createBoard";
-import { createFPOs } from "./fpo";
+import { ballStart, createFPOs } from "./fpo";
 import * as World from "./createWorld";
 import * as Cameras from "./createCameras";
 import * as Balltholemew from "./createBall";
 import { KeyboardEventTypes } from "@babylonjs/core/Events/keyboardEvents";
-import { ballStart, wallMaterial } from "./flotsam";
+import { wallMaterial } from "./flotsam";
 
 export class Start {
   banger?: AcidBanger;

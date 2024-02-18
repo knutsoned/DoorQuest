@@ -8,27 +8,6 @@ import { CellMaterial } from "@babylonjs/materials/cell/cellMaterial";
 
 import { IConfig } from "./types";
 
-export function ballStart(ball: Mesh, config: IConfig) {
-  ball.position = new Vector3(-2, config.var.radius, 9);
-
-  const random = config.prng.random;
-  const moveScale = 42;
-  const moveMin = 17;
-  const movement = () => {
-    const base = random() * moveScale + moveMin;
-    return random() > 0.5 ? base : -base;
-  };
-
-  const moveX = movement();
-  const moveY = movement();
-
-  ball.physicsImpostor.applyImpulse(
-    //new Vector3(0.5, 0, 0.1),
-    new Vector3(moveX, 0, moveY),
-    config.const.origin
-  );
-}
-
 export function celShade(
   name: string,
   texture: Texture,

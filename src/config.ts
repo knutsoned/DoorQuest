@@ -40,6 +40,7 @@ export const Config: IConfig = {
     impl: prng,
     seed: seed,
     random: prng.random,
+    uint32: prng.uint32,
   },
 
   // variables available to terminal

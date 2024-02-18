@@ -13,10 +13,13 @@ import * as World from "./createWorld";
 import * as Cameras from "./createCameras";
 import * as Balltholemew from "./createBall";
 import { KeyboardEventTypes } from "@babylonjs/core/Events/keyboardEvents";
+import { ballStart, wallMaterial } from "./flotsam";
 
 export class Start {
   banger?: AcidBanger;
   config: IConfig;
+
+  scene: Scene;
 
   mode: UIMode = UIMode.Sidebar;
   //mode: UIMode = UIMode.Full3D;
@@ -27,18 +30,18 @@ export class Start {
   // meshes
   ball: Mesh;
   wizardHat: AbstractMesh;
+  walls: Mesh[];
 
   // requestAnimationFrame
   handleBeforeRender(): void {
-    /*
     // @ts-ignore
     if (window.gameOver) {
       // @ts-ignore
       window.gameOver = false;
+      // Ed. note: still don't quite feel right about this...
       this.again();
       return;
     }
-    */
 
     const ball = this.ball;
     const ballPos = ball.position;
@@ -99,6 +102,7 @@ export class Start {
     canvas: HTMLCanvasElement
   ): Promise<void> {
     this.config = config;
+    this.scene = scene;
 
     // skybox texture
     var hdrTexture = new HDRCubeTexture(
@@ -107,7 +111,7 @@ export class Start {
       512
     );
 
-    World.init(hdrTexture, scene, config);
+    this.walls = World.init(hdrTexture, scene, config);
 
     // cameras
     // This creates and positions a free camera (non-mesh)
@@ -164,6 +168,23 @@ export class Start {
         }
       });
     });
+
+    // reset the scene
+    this.again();
+  }
+
+  again(): void {
+    // change wall textures
+    const brickIndex = Math.ceil(this.config.prng.random() * 5);
+    for (const wall of this.walls) {
+      wall.material = wallMaterial(brickIndex, this.scene, this.config);
+    }
+
+    if (this.config.const.fpo) {
+      // return ball to original position
+      // set ball velocity to randomized vector
+      ballStart(this.ball, this.config);
+    }
   }
 }
 

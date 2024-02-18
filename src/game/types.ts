@@ -4,6 +4,8 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import { Viewport } from "@babylonjs/core/Maths/math.viewport";
 import { KeyboardEventKey } from "keyboard-event-key-type"; // seems like a good idea at this time
 
+export type NumberMaker = () => number;
+
 // restrict config values to 1..255, sounds pretty easy
 // um, ok https://stackoverflow.com/a/66085193
 export type UInt8NZ = number & {
@@ -22,7 +24,8 @@ export const uint8NZ = (value: number): UInt8NZ => {
 };
 
 export type PRNG = {
-  random: () => number;
+  random: NumberMaker;
+  uint32: NumberMaker;
 };
 
 // declaring key constants for maps
@@ -47,7 +50,8 @@ export type UICameraMode = {
 export interface IConfig {
   prng: {
     impl: PRNG;
-    random: () => number;
+    random: NumberMaker;
+    uint32: NumberMaker;
     seed?: string;
   };
   var: {

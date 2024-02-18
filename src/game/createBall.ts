@@ -25,7 +25,6 @@ export function init(
     { diameter: config.var.radius * 2, segments: 32 },
     scene
   );
-  ball.position = new Vector3(-2, config.var.radius, 9);
 
   ball.physicsImpostor = new PhysicsImpostor(
     ball,

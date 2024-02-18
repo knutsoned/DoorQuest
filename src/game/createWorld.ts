@@ -11,12 +11,13 @@ import { HDRCubeTexture } from "@babylonjs/core/Materials/Textures/hdrCubeTextur
 import { CreateBox } from "@babylonjs/core/Meshes/Builders/boxBuilder";
 import { PBRMaterial } from "@babylonjs/core/Materials/PBR/pbrMaterial";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
 
 export function init(
   hdrTexture: HDRCubeTexture,
   scene: Scene,
   config: IConfig
-) {
+): Mesh[] {
   //const sunPosition = new Vector(0, 20, 0);
   const sunPosition = new Vector3(0, 20, 15);
   const sun = new PointLight("sun", sunPosition, scene);
@@ -62,22 +63,29 @@ export function init(
   // END: init ground
 
   // BEGIN: init walls
-  const brickIndex = Math.ceil(config.prng.random() * 5);
   const halfSize = config.const.world.width / 2;
   const quarterTurn = config.const.quarterTurn;
 
-  const farWall = createWall(brickIndex, scene, config);
-  farWall.position.z -= halfSize;
+  const walls: Mesh[] = [];
 
-  const leftWall = createWall(brickIndex, scene, config);
+  const farWall = createWall(scene, config);
+  farWall.position.z -= halfSize;
+  walls.push(farWall);
+
+  const leftWall = createWall(scene, config);
   leftWall.position.x += halfSize;
   leftWall.rotate(Vector3.Up(), quarterTurn);
+  walls.push(leftWall);
 
-  const rightWall = createWall(brickIndex, scene, config);
+  const rightWall = createWall(scene, config);
   rightWall.position.x -= halfSize;
   rightWall.rotate(Vector3.Up(), quarterTurn);
+  walls.push(rightWall);
 
-  const frontWall = createWall(brickIndex, scene, config);
+  const frontWall = createWall(scene, config);
   frontWall.position.z += halfSize;
+  walls.push(frontWall);
   // END: init walls
+
+  return walls;
 }

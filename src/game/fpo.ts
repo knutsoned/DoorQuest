@@ -7,27 +7,10 @@ import { Mesh } from "@babylonjs/core/Meshes/mesh";
 
 // for placement only
 export function createFPOs(ball: Mesh, scene: Scene, config: IConfig) {
-  const random = config.prng.random;
   const worldSize = config.const.world.width;
-  const moveScale = 42;
-  const moveMin = 17;
   // Move the sphere away from cam
   //this.ball.position = new Vector3(0, 2.5, 8); // prod
   //this.ball.position = new Vector3(0, 2.5, 0);
-
-  const movement = () => {
-    const base = random() * moveScale + moveMin;
-    return random() > 0.5 ? base : -base;
-  };
-
-  const moveX = movement();
-  const moveY = movement();
-
-  ball.physicsImpostor.applyImpulse(
-    //new Vector3(0.5, 0, 0.1),
-    new Vector3(moveX, 0, moveY),
-    config.const.origin
-  );
 
   // red sphere (bottom left)
   const sphereBottomLeft = CreateSphere(

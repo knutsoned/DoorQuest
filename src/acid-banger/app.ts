@@ -257,13 +257,15 @@ function ClockUnit(): ClockUnit {
 
 // Ed. note: to use the engine in another project
 export class AcidBanger {
+  au: AudioContext;
   audio: AudioT;
   clock: ClockUnit;
   delay: DelayUnit;
   programState: ProgramState;
 
   constructor() {
-    this.audio = Audio();
+    // @ts-ignore
+    this.audio = Audio(au);
     this.clock = ClockUnit();
     this.delay = DelayUnit(this.audio);
   }

@@ -2,6 +2,8 @@ import { Engine } from "@babylonjs/core/Engines/engine";
 import { WebGPUEngine } from "@babylonjs/core/Engines/webgpuEngine";
 import { getSceneModule } from "./createScene";
 
+import { AcidBanger } from "./acid-banger/app";
+
 import "nes.css/css/nes.min.css";
 
 import "../style.scss";
@@ -36,6 +38,10 @@ export const babylonInit = async (): Promise<void> => {
 
   // Create the scene
   let scene = await createSceneModule.createScene(engine, canvas);
+
+  // Music
+  // @ts-ignore
+  const acidBanger = new AcidBanger(window.au);
 
   // JUST FOR TESTING. Not needed for anything else
   //(window as any).scene = scene;

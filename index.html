@@ -57,6 +57,7 @@
         <h1>Loading <span id="ellipsis"></span></h1>
       </div>
     </div>
+    <audio id="sound"></audio>
     <script>
       const boss = document.getElementById("boss");
       const ellipsis = document.getElementById("ellipsis");
@@ -113,8 +114,13 @@
         }
       };
 
+      window.au = new AudioContext()
+
       function toggleMusicOn() {
         console.log("toggle music");
+        if (!window.musicOn) {
+          window.au.resume()
+        }
         window.musicOn = !window.musicOn;
         musicBtn.innerText =
           "Music " + (window.musicOn ? "Mute" : "On") + " (M)";
@@ -122,6 +128,9 @@
 
       function toggleSoundOn() {
         console.log("toggle sound");
+        if (!window.soundOn) {
+          window.au.resume()
+        }
         window.soundOn = !window.soundOn;
         soundBtn.innerText = "SFX " + (window.soundOn ? "Mute" : "On") + " (S)";
       }
